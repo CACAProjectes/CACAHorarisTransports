@@ -1,0 +1,47 @@
+Calcular el tiempo que tardará el bus en hacer un recorrido entero
+	https://rubibus.com/index.asp?seccion=calculoRecorrido&lang=es
+
+onChange="updateLineaMenu('IdLinea','IdSentido','IdJornada','IdParadaOr','BotonBuscar3','es');
+onChange="paradaSeleccionada2Origen('IdLinea','IdSentido','IdJornada','IdParadaDe','BotonBuscar3','es');
+onChange="paradaSeleccionada2('IdLinea','IdSentido','IdJornada','IdParadaDe','BotonBuscar3','es');
+onChange="updateJornadaMenu2('IdLinea','IdSentido','IdJornada','IdParadaOr','BotonBuscar3');
+
+<select name="IdLinea" id="IdLinea" class="Textbox " size="1" onChange="updateLineaMenu('IdLinea','IdSentido','IdJornada','IdParadaOr','BotonBuscar3','es');">
+<option value="0"  selected >Escoge una linia</option>
+<option value="1-2"  title="EL PINAR-CAN SERRAFOSSÀ"> L1. Can Serrafossà-El Pinar</option>
+<option value="1-1"  title="EL PINAR-CAN SERRAFOSSÀ"> L1. El Pinar-Can Serrafossà</option>
+<option value="2-4"  title="CAN VALLHONRAT-EL PINAR"> L2. El Pinar/Can Rosés-Can Vallhonrat</option>
+<option value="2-3"  title="CAN VALLHONRAT-EL PINAR"> L2. Can Vallhonrat-El Pinar/Can Rosés</option>
+<option value="3-14"  title="ESTACIÓ RUBÍ+D-CASTELLNOU"> L3. Estació RubÍ+D-Castellnou</option>
+<option value="3-13"  title="ESTACIÓ RUBÍ+D-CASTELLNOU"> L3. Castellnou-Estació RubÍ+D</option>
+<option value="4-6"  title="ESTACIÓ RUBÍ+D-CAN ROSÉS"> L4. Can Rosés-Estació RubÍ+D</option>
+<option value="4-5"  title="ESTACIÓ RUBÍ+D-CAN ROSÉS"> L4. Estació RubÍ+D-Can Rosés</option>
+<option value="5-8"  title="CAN ROSÉS-ESTACIÓ RUBÍ+D"> L5. Estació RubÍ+D-Can Rosés</option>
+<option value="5-7"  title="CAN ROSÉS-ESTACIÓ RUBÍ+D"> L5. Can Rosés-Estació RubÍ+D</option>
+<option value="6-12"  title="RUBÍ SUD-POL. LA BASTIDA"> L6. Pol. La Bastida-Pol. Rubí Sud</option>
+<option value="6-9"  title="RUBÍ SUD-POL. LA BASTIDA"> L6. Pol. Rubí Sud-Pol. La Bastida</option>
+<option value="7-16"  title="ESTACIÓ RUBÍ+D-SANT MUÇ"> L7. Sant Muç-Estació RubÍ+D</option>
+<option value="7-15"  title="ESTACIÓ RUBÍ+D-SANT MUÇ"> L7. Estació RubÍ+D-Sant Muç</option>
+</select>
+
+//	JORNADAS
+//	4>FESTIVOS<7>FESTIVOS AGOSTO<5>LABORABLES AGOSTO<1>LABORABLES LECTIVOS<3>SÁBADOS<6>SABADOS AGOSTO<
+	https://rubibus.com/consultes.asp?proces=PassaLineaBarraMenu&idLinea=0
+	https://rubibus.com/consultes.asp?proces=PassaLineaBarraMenu&idLinea=1
+
+//	SENTIDOS
+//	7>Can Rosés-Estació RubÍ+D<8>Estació RubÍ+D-Can Rosés<
+	https://rubibus.com/consultes.asp?proces=PassaJornada&idLinea=5&idJornada=1
+	
+//	PARADAS:	8>Estació RubÍ+D-Can Rosés<
+//	161>25 de Setembre<160>Anton de Borja<775>Antoni Sedó<378>Biblioteca<168>Ca nOriol<175>Can Rosés<375>Cervantes<157>Doctor Ferran<172>El Ferrol<173>Els Nius<154>Estació RubÍ+D<171>Font del Ferro<155>Joan Puig<167>Lourdes<377>Magí Ramentol<170>Mallorca<376>Mercat<174>Olimpíades<158>Països Catalans<166>Plana de Can Bertran<374>Sant Cugat<169>Segòvia<156>Servet<	
+	https://rubibus.com/consultes.asp?proces=PassaSentit&idSentit=8&idJornada=1
+
+//	¿? 775>175 
+	¿? https://rubibus.com/consultes.asp?proces=DemanaIdParades&NomParadaOr=775&NomParadaDe=175&idSentido=8
+
+//	HORARIOS
+//	6:45:00>si>7:07:00>si>7:29:00>si>7:54:00>si>8:18:00>si>8:42:00>si>9:06:00>si>9:30:00>si>9:54:00>si>10:18:00>si>10:42:00>si>11:06:00>si>11:30:00>si>11:54:00>si>12:18:00>si>12:42:00>si>13:06:00>si>13:30:00>si>13:54:00>si>14:18:00>si>14:42:00>si>15:06:00>si>15:30:00>si>15:54:00>si>16:18:00>si>16:42:00>si>17:06:00>si>17:30:00>si>17:54:00>si>18:18:00>si>18:42:00>si>19:06:00>si>19:30:00>si>19:53:00>si>20:15:00>si>20:37:00>si>20:59:00>si>21:21:00>si>21:41:00>si>		<		7:03:00>si>7:25:00>si>7:48:00>si>8:13:00>si>8:37:00>si>9:01:00>si>9:25:00>si>9:49:00>si>10:13:00>si>10:37:00>si>11:01:00>si>11:25:00>si>11:49:00>si>12:13:00>si>12:37:00>si>13:01:00>si>13:25:00>si>13:49:00>si>14:13:00>si>14:37:00>si>15:01:00>si>15:25:00>si>15:49:00>si>16:13:00>si>16:37:00>si>17:01:00>si>17:25:00>si>17:49:00>si>18:13:00>si>18:37:00>si>19:01:00>si>19:25:00>si>19:48:00>si>20:11:00>si>20:33:00>si>20:55:00>si>21:17:00>si>21:39:00>si>21:59:00>si>
+	https://rubibus.com/consultes.asp?proces=DemanaHora&idParadaOr=775&idParadaDe=175&idSentido=8&idJornada=1
+
+
