@@ -1,0 +1,46 @@
+L5
+Linea-5
+
+Can Rosés-Estació RubÍ+D
+	136;Can Rosés
+	137;Terranova
+	138;Sevilla
+	139;Primer de Maig
+	140;La Serreta
+	141;Sabadell
+	142;Orso
+	143;Santa Eulàlia
+	144;Zamenhoff
+	145;Sardana
+	146;Pau Clarís
+	147;Cadmo
+	851;Bullidor						
+	151;Sant Joan
+	152;Espoz i Mina
+	153;Estació RubÍ+D
+	
+Estació RubÍ+D-Can Rosés
+	154;Estació RubÍ+D
+	155;Joan Puig
+	156;Servet
+	157;Doctor Ferran
+	158;Països Catalans
+	775;Antoni Sedó
+	160;Anton de Borja
+	161;25 de Setembre
+	374;Sant Cugat
+	375;Cervantes
+	376;Mercat
+	377;Magí Ramentol
+	378;Biblioteca
+	166;Plana de Can Bertran
+	167;Lourdes
+	168;Ca nOriol
+	169;Segòvia
+	170;Mallorca
+	171;Font del Ferro
+	172;El Ferrol
+	173;Els Nius
+	174;Olimpíades
+	175;Can Rosés
+	        			

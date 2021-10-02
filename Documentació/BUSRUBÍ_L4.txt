@@ -1,0 +1,46 @@
+L4
+Linea-4
+
+Can Rosés-Estació RubÍ+D
+	116;Can Rosés
+	117;Olimpíades
+	118;Els Nius
+	936;Zamora
+	120;Lleó
+	121;Pastora
+	122;Ca nOriol
+	123;Lourdes
+	124;Plana de Can Bertran
+	372;Biblioteca
+	937;Calderón
+	373;Magallanes
+	126;Agricultura
+	127;Terol
+	128;25 de Setembre
+	129;Anton de Borja
+	130;Antoni Sedó
+	131;Països Catalans
+	132;Doctor Ferran
+	133;Servet
+	134;Joan Puig
+	135;Estació RubÍ+D
+
+
+Estació RubÍ+D-Can Rosés
+	100;Estació RubÍ+D
+	368;Torrijos
+	369;Riera-Guardiet
+	371;Bullidor
+	104;Cap Mútua de Terrassa
+	105;Sant Jordi
+	106;Carrasco i Formiguera
+	107;Celso Ferreiro
+	108;Sabadell
+	109;La Serreta
+	110;Primer de Maig
+	111;Lepant
+	112;Navas de Tolosa
+	113;Estatut
+	114;Terranova
+	115;Can Rosés
+
