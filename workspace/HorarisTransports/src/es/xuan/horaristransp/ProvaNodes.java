@@ -20,16 +20,16 @@ public class ProvaNodes {
 		nodePrincipal.addNodeFinal(node4);		
 		System.out.println(nodePrincipal.toString());
 		//
-		nodePrincipal.addNode(node0);		// Afegir un node a la posició següent a la actual
+		nodePrincipal.addNode(node0);					// Afegir un node a la posició següent a la actual
 		System.out.println(nodePrincipal.toString());
 		//
-		nodePrincipal.addNode(node5, 0);					// Afegir un node a la posició [0..n] - No sustituye el primero NODO
+		nodePrincipal.addNode(node5, 0);				// Afegir un node a la posició [0..n] - No sustituye el primero NODO
 		System.out.println(nodePrincipal.toString());
 		//
 		nodePrincipal.addNode(node6, node1);			// Afegir un node(arg0) a la posició següent del NODE(arg1)
 		System.out.println(nodePrincipal.toString());
 		//
-		Node node = nodePrincipal.getNode("P2");				// retorna el node amb el nom de entrada 
+		Node node = nodePrincipal.getNode("P2");		// retorna el node amb el nom de entrada 
 		System.out.println(node.toString());
 		//
 		node = nodePrincipal.getNode(0);				// retorna el node amb el ordre de entrada [0..n]
