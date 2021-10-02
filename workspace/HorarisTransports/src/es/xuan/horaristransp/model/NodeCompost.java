@@ -12,18 +12,18 @@ import es.xuan.horaristransp.utils.Constants;
  * @author jcamposp
  *
  */
-public class Node implements Serializable {
+public class NodeCompost implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String nom;
 	private Coordenada coordenada;
 	private Hashtable<String, String[]> dades;	// L5, [HORARIS0..HORARISn]
-	private Hashtable<String, Node> nodesSeguents;		// L5, NODE
+	private Hashtable<String, NodeCompost> nodesSeguents;		// L5, NODE
 
-	public Node() {
+	public NodeCompost() {
 	}
 	
-	public Node(String pLinia) {
+	public NodeCompost(String pLinia) {
 		String[] dades = pLinia.split(Constants.CNT_SEPARADOR_LINIA);
 		String clauLinia = dades[0];	// Nom de la linia
 		setNom(dades[1]);				// Nom del node			
@@ -36,10 +36,10 @@ public class Node implements Serializable {
 	public void setDades(Hashtable<String, String[]> dades) {
 		this.dades = dades;
 	}
-	public Hashtable<String, Node> getNodesSeguents() {
+	public Hashtable<String, NodeCompost> getNodesSeguents() {
 		return nodesSeguents;
 	}
-	public void setNodesSeguents(Hashtable<String, Node> nodesSeguents) {
+	public void setNodesSeguents(Hashtable<String, NodeCompost> nodesSeguents) {
 		this.nodesSeguents = nodesSeguents;
 	}
 	public String getNom() {
@@ -68,17 +68,18 @@ public class Node implements Serializable {
 		}
 		return res;
 	}
-	public void addNodeSeguent(Node pNode) {
+	public void addNodeSeguent(NodeCompost pNode) {
 		// Add node
 		String strClau = pNode.getDades().keys().nextElement();	// Nom de la linia
 		if (getNodesSeguents() == null)
-			setNodesSeguents(new Hashtable<String, Node>());
+			setNodesSeguents(new Hashtable<String, NodeCompost>());
 		getNodesSeguents().put(strClau, pNode);		
 	}
-	public void addNode(Node pNode) {
+	public void addNode(NodeCompost pNode) {
 		// Add node
-		Node node = null;
+		NodeCompost node = null;
 		String strClau = pNode.getDades().keys().nextElement();	// Nom de la linia
+		/*
 		if (getNodesSeguents() == null)
 			// Primer Node
 			node = this;
@@ -86,19 +87,20 @@ public class Node implements Serializable {
 			// Nodes següents
 			//node = buscarNodeDarrer(this, strClau);
 			node = buscarNodeDarrer(pNode);
+		 */
 		//node.addNodeSeguent(pNode);
 	}	
 	//private Node buscarNodeDarrer(Node pNode, String pClau) {
-	private void buscarNodeDarrer(Node pNode) {
+	private void buscarNodeDarrer(NodeCompost pNode) {
 		while (getDades().keys().hasMoreElements()) {
 			String pClau = getDades().keys().nextElement();
-			Node nNode = this;
+			NodeCompost nNode = this;
 			while (nNode != null &&
 				nNode.getNodesSeguents() != null &&
 				nNode.getNodesSeguents().get(pClau) != null) {
 				nNode = nNode.getNodesSeguents().get(pClau);
 			}
-			nNode.setNodesSeguents(new Hashtable<String, Node>());
+			nNode.setNodesSeguents(new Hashtable<String, NodeCompost>());
 			getNodesSeguents().put(pClau, pNode);	
 		}
 	}
