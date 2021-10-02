@@ -13,7 +13,7 @@ public class ProvaNodes {
 		Node node4 = new Node("P4");
 		Node node5 = new Node("P5");
 		Node node6 = new Node("P6");
-		// Caso afegir a l'ultim
+		// Caso afegir a l'ultim	
 		nodePrincipal.addNodeFinal(node1);
 		nodePrincipal.addNodeFinal(node2);
 		nodePrincipal.addNodeFinal(node3);
