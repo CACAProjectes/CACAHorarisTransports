@@ -29,6 +29,9 @@ public class Node implements Serializable {
 		else
 			getSeguent().addNodeFinal(pNode);
 	}
+	
+	// PP - P5 - P0 - P1 - P6 - P2 - P3 - P4
+
 	@Override
 	public String toString() {
 		if (getSeguent() == null)
@@ -66,5 +69,16 @@ public class Node implements Serializable {
 			return -1;
 		else
 			return getSeguent().length() + 1;
+	}
+	public void delNode(Node pNodeVar) {
+		/*
+		if (getNom().equalsIgnoreCase(pNodeVar.getNom()) || getSeguent() == null)
+			setSeguent(pNodeVar.getSeguent());
+		else 
+			getSeguent().delNode(pNodeVar);
+		*/
+		Node node = pNodeVar.getSeguent();
+		Node node1 = node.getSeguent();
+		pNodeVar.setSeguent(node1);
 	}
 }
