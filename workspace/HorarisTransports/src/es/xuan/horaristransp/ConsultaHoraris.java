@@ -17,7 +17,7 @@ public class ConsultaHoraris {
 		Nodes nodes = carregarNodes2File();
 		System.out.println("Nº de nodes L4: " + nodes.tamany("L4"));
 		System.out.println("Nº de nodes L5: " + nodes.tamany("L5"));
-		//System.out.println("Nodes: " + nodes.toString("L4"));	
+		//System.out.println("Nodes: " + nodes.toString("L4"));
 	}
 	
 	private static Nodes carregarNodes2File() {
