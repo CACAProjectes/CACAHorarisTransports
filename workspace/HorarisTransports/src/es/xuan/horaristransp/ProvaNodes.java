@@ -37,5 +37,8 @@ public class ProvaNodes {
 		//
 		long vTam = nodePrincipal.length();				// retorna el número de nodos del NODO PRINCIPAL
 		System.out.println("" + vTam);
+		//
+		nodePrincipal.delNode(node6);			// Esborra un node(arg0) a la posició següent del NODE(arg1)
+		System.out.println(nodePrincipal.toString());
 	}	
 }
