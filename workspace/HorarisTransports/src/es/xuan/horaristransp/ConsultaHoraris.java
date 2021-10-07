@@ -7,30 +7,34 @@ import java.util.TimeZone;
 
 import es.xuan.horaristransp.file.GestioFitxers;
 import es.xuan.horaristransp.model.Node;
+import es.xuan.horaristransp.model.Nodes;
+import es.xuan.horaristransp.utils.Constants;
 
 public class ConsultaHoraris {
 
+
 	public static void main(String[] args) {
-		Node node = carregarNodes2File();
-		System.out.println("");
-		//System.out.println("Nº de nodes: " + nodes.getNodes().size());
+		Nodes nodes = carregarNodes2File();
+		System.out.println("Nº de nodes L4: " + nodes.tamany("L4"));
+		System.out.println("Nº de nodes L5: " + nodes.tamany("L5"));
 		//System.out.println("Nodes: " + nodes.toString("L4"));
 	}
 	
-	private static Node carregarNodes2File() {
+	private static Nodes carregarNodes2File() {
 		ArrayList<String> linies = GestioFitxers.llegirFile("c:\\CACAProjectes\\CACAHorarisTransports\\Documentació\\fitxer_importació_horaris.csv");
-		/*
-		Node node = new Node();
+		Nodes nodes = new Nodes();
 		for(String linia : linies) {
-			Node nodeNou = new Node(linia);
-			//node.addNode(nodeNou.getDades().keys().nextElement(), nodeNou); // Agafa el primer element del Node, per obtener la CLAU/CATEGORIA
-			node.addNode(nodeNou);
+			/*
+			 * L4;Estació RubÍ+D;06:30;06:51;07:13;07:35;07:58;08:22;08:46;09:10;09:34;09:58;10:22;10:46;11:10;11:34;11:58;12:22;12:46;13:10;13:34;13:58;14:22;14:46;15:10;15:34;15:58;16:22;16:46;17:10;17:34;17:58;18:22;18:46;19:10;19:34;19:57;20:19;20:41;21:03;21:25;21:46;22:06
+			 */
+			if (linia != null && !linia.equals("")) {
+				String[] strValors = linia.split(Constants.CNT_SEPARADOR_LINIA);
+				Node nodeNou = new Node(strValors);
+				nodes.addNode(strValors[0], nodeNou);	// [CLAU, NODE]
+			}
 		}
-		return node;
-		*/
-		return null;
+		return nodes;
 	}
-
 
 	private static String horatiToString(String[] pHorari) {
 		String strRes = "";

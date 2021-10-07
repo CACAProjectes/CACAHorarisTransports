@@ -4,12 +4,18 @@ import java.io.Serializable;
 
 public class Node implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	protected String nom;
-	protected Node seguent;
 	
-	public Node(String pNom) {
-		nom = pNom;
+	private String nom;
+	private String horaris;
+	private Coordenada coordenada;
+	
+	public Node(String[] strValors) {
+		/*
+		 * L4;Estació RubÍ+D;06:30;06:51;07:13;07:35;07:58;08:22;08:46;09:10;09:34;09:58;10:22;10:46;11:10;11:34;11:58;12:22;12:46;13:10;13:34;13:58;14:22;14:46;15:10;15:34;15:58;16:22;16:46;17:10;17:34;17:58;18:22;18:46;19:10;19:34;19:57;20:19;20:41;21:03;21:25;21:46;22:06
+		 */
+		setNom(strValors[1]);		// Nom - Estació RubÍ+D
+		setHoraris(strValors[2]);	// Horaris - 06:30;06:51;07:13;07:35;07:58;08:22;08:46;09:10;09:34;09:58;10:22;10:46;11:10;11:34;11:58;12:22;12:46;13:10;13:34;13:58;14:22;14:46;15:10;15:34;15:58;16:22;16:46;17:10;17:34;17:58;18:22;18:46;19:10;19:34;19:57;20:19;20:41;21:03;21:25;21:46;22:06 
+		setCoordenada(new Coordenada(0,0));
 	}
 	public String getNom() {
 		return nom;
@@ -17,68 +23,22 @@ public class Node implements Serializable {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public Node getSeguent() {
-		return seguent;
+	public String getHoraris() {
+		return horaris;
 	}
-	public void setSeguent(Node seguent) {
-		this.seguent = seguent;
+	public void setHoraris(String horaris) {
+		this.horaris = horaris;
 	}
-	public void addNodeFinal(Node pNode) {
-		if (getSeguent() == null)
-			setSeguent(pNode);
-		else
-			getSeguent().addNodeFinal(pNode);
+	/**
+	 * @return the coordenada
+	 */
+	public Coordenada getCoordenada() {
+		return coordenada;
 	}
-	
-	// PP - P5 - P0 - P1 - P6 - P2 - P3 - P4
-
-	@Override
-	public String toString() {
-		if (getSeguent() == null)
-			return getNom();			
-		return getNom() + " - " + getSeguent().toString();
-	}
-	public void addNode(Node pNode) {
-		pNode.setSeguent(getSeguent());
-		setSeguent(pNode);
-	}
-	public void addNode(Node pNode, long pPosicio) {
-		if (pPosicio < 1 || getSeguent() == null)
-			addNode(pNode);
-		else
-			getSeguent().addNode(pNode, pPosicio-1);
-	}
-	public void addNode(Node pNode, Node pNodeVar) {
-		Node node = pNodeVar.getSeguent();
-		pNodeVar.setSeguent(pNode);
-		pNode.setSeguent(node);
-	}
-	public Node getNode(String pNom) {
-		if (getNom().equalsIgnoreCase(pNom) || getSeguent() == null)
-			return this;
-		return getSeguent().getNode(pNom);
-	}
-	
-	public Node getNode(int pIndex) {
-		if (pIndex < 0 || getSeguent() == null)
-			return this;
-		return getSeguent().getNode(pIndex - 1);
-	}
-	public long length() {
-		if (getSeguent() == null)
-			return -1;
-		else
-			return getSeguent().length() + 1;
-	}
-	public void delNode(Node pNodeVar) {
-		/*
-		if (getNom().equalsIgnoreCase(pNodeVar.getNom()) || getSeguent() == null)
-			setSeguent(pNodeVar.getSeguent());
-		else 
-			getSeguent().delNode(pNodeVar);
-		*/
-		Node node = pNodeVar.getSeguent();
-		Node node1 = node.getSeguent();
-		pNodeVar.setSeguent(node1);
-	}
+	/**
+	 * @param coordenada the coordenada to set
+	 */
+	public void setCoordenada(Coordenada coordenada) {
+		this.coordenada = coordenada;
+	}	
 }

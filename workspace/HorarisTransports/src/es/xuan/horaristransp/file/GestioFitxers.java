@@ -4,8 +4,10 @@
 package es.xuan.horaristransp.file;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +23,8 @@ public class GestioFitxers {
         try {
            //Crear un objeto BufferedReader al que se le pasa 
            //   un objeto FileReader con el nombre del fichero
-           br = new BufferedReader(new FileReader(pNomFile));
+           br = new BufferedReader(new InputStreamReader(
+        	         new FileInputStream(pNomFile), "ISO-8859-1"));
            //Leer la primera línea, guardando en un String
            String texto = br.readLine();
            //Repetir mientras no se llegue al final del fichero
