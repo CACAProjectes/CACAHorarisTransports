@@ -2,10 +2,12 @@ package es.xuan.horaristransp;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import es.xuan.horaristransp.file.GestioFitxers;
+import es.xuan.horaristransp.model.Coordenada;
 import es.xuan.horaristransp.model.Node;
 import es.xuan.horaristransp.model.Nodes;
 import es.xuan.horaristransp.utils.Constants;
@@ -17,11 +19,35 @@ public class ConsultaHoraris {
 		Nodes nodes = carregarNodes2File();
 		System.out.println("Nº de nodes L4: " + nodes.tamany("L4"));
 		System.out.println("Nº de nodes L5: " + nodes.tamany("L5"));
-		//System.out.println("Nodes: " + nodes.toString("L4"));
+		//
+		//construirMapa(nodes);
 	}
 	
+	private static void construirMapa(Nodes pNodes) {
+		String strClau = "";
+		int coordX = 0, coordY = 0;
+		// create an Enumeration object to read elements
+        Enumeration<String> e = pNodes.getListaNodes().keys();  
+        // print elements of hashtable using enumeration
+        while (e.hasMoreElements()) {
+        	String auxClau = e.nextElement();
+        	if (!strClau.equals(auxClau) && !strClau.equals("") ) {
+        		coordX = 0;
+        		coordY++;
+        	}
+        	ArrayList<Node> arrNodes = pNodes.getListaNodes().get(auxClau);
+        	for (Node node : arrNodes) {
+        		node.setCoordenada(new Coordenada(coordX++,coordY));
+        		System.out.print(node + " - ");
+        	}
+    		strClau = auxClau;
+    	}		
+	}
+
 	private static Nodes carregarNodes2File() {
 		ArrayList<String> linies = GestioFitxers.llegirFile("c:\\CACAProjectes\\CACAHorarisTransports\\Documentació\\fitxer_importació_horaris.csv");
+		String strClau = "";
+		int coordX = 0, coordY = 0;
 		Nodes nodes = new Nodes();
 		for(String linia : linies) {
 			/*
@@ -30,7 +56,15 @@ public class ConsultaHoraris {
 			if (linia != null && !linia.equals("")) {
 				String[] strValors = linia.split(Constants.CNT_SEPARADOR_LINIA);
 				Node nodeNou = new Node(strValors);
+				
+	        	if (!strClau.equals(strValors[0]) && !strClau.equals("") ) {
+	        		coordX = 0;
+	        		coordY++;
+	        	}
+	        	nodeNou.setCoordenada(new Coordenada(coordX++, coordY));
 				nodes.addNode(strValors[0], nodeNou);	// [CLAU, NODE]
+	    		strClau = strValors[0];
+	    		//System.out.print(nodeNou + " - ");
 			}
 		}
 		return nodes;

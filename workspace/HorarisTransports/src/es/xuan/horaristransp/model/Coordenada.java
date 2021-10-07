@@ -31,4 +31,9 @@ public class Coordenada implements Serializable {
 	public void setY(int y) {
 		Y = y;
 	}
+	
+	@Override
+	public String toString() {
+		return "(" + getX() + "," + getY() + ")";
+	}
 }
