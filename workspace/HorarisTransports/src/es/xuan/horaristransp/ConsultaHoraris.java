@@ -37,29 +37,43 @@ public class ConsultaHoraris {
 	        		coordY++;
 	        	}
 	        	nodeNou.setCoordenada(new Coordenada(coordX++, coordY));
-	        	//Node nodeMultiple = cercarNode(nodes, nodeNou);
-				//nodes.addNode(strValors[0], nodeMultiple);	// [CLAU, NODE]
-	        	nodes.addNode(strValors[0], nodeNou);	// [CLAU, NODE]
+	        	Node nodeMultiple = cercarNode(nodes, nodeNou);
+	        	if (nodeMultiple != null &&
+	        		nodeMultiple.getHoraris() != null &&
+	        		nodeMultiple.getHoraris().getHoraris().elements() != null
+	        		) {
+	        		if (nodeMultiple.getHoraris().getHoraris().get(nodeNou.getHoraris().getHoraris().keys().nextElement()) == null) {
+	        			// Afegeix la LINIA al node
+	        			nodeMultiple.getHoraris().getHoraris().put(
+	        				nodeNou.getHoraris().getHoraris().keys().nextElement(), 
+	        				nodeNou.getHoraris().getHoraris().elements().nextElement());
+	        		}
+	        		else {
+	        			// Afegeix l'horari al node i LINIA en curs
+		        		nodeMultiple.getHoraris().getHoraris().get(nodeNou.getHoraris().getHoraris().keys().nextElement()).getHores().put(
+		        				nodeNou.getHoraris().getHoraris().elements().nextElement().getHores().keys().nextElement(), 
+		        				nodeNou.getHoraris().getHoraris().elements().nextElement().getHores().elements().nextElement());
+	        		}
+	        	}
+	        	else
+	        		nodes.addNode(strValors[0], nodeNou);	// [CLAU, NODE]
 	    		strClau = strValors[0];
-	    		//System.out.print(nodeNou + " - ");
 			}
 		}
 		return nodes;
 	}
 
 	private static Node cercarNode(Nodes pNodes, Node pNode) {
-        Enumeration<ArrayList<Node>> e = pNodes.getListaNodes().elements();  
+        Enumeration<ArrayList<Node>> e = pNodes.getNodes().elements();  
         // print elements of hashtable using enumeration
         while (e.hasMoreElements()) {
         	for(Node node : e.nextElement()) {
         		if (node.getNom().equalsIgnoreCase(pNode.getNom())) {
-        			//String clauNova = pNode.getHoraris().keys().nextElement();
-        			//node.getHoraris().put(clauNova, pNode.getHoraris().get(clauNova));
         			return node;
         		}
         	}        	
         }        	
-		return pNode;
+		return null;
 	}
 
 	private static String horatiToString(String[] pHorari) {

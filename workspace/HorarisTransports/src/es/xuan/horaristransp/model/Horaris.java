@@ -16,6 +16,10 @@ public class Horaris implements Serializable {
 		this.horaris = horaris;
 	}
 
+	public void add(String pLinia, String pKey, String[] pHores) {
+		Hores hores = getHoraris().get(pLinia);
+		hores.getHores().put(pKey, pHores);
+	}
 	public void add(String pLinia, String[] pHores) {
 		Hores hores = new Hores();
 		hores.add(pHores);
