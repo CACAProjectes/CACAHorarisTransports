@@ -1,0 +1,8 @@
+Definició de CONSTANTS
+
+T - Tornada
+A - Anada
+
+L - Horari lectius
+S - Horari dissabtes
+F - Horari festius

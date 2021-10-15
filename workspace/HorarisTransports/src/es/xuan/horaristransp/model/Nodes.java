@@ -2,6 +2,7 @@ package es.xuan.horaristransp.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 
 public class Nodes implements Serializable {
@@ -27,10 +28,26 @@ public class Nodes implements Serializable {
 		this.listaNodes = listaNodes;
 	}
 	
-	public void addNode(String pClau, Node pNode ) {
+	public void addNode(String pClau, Node pNode) {
 		if (getListaNodes().get(pClau) == null)
 			getListaNodes().put(pClau, new ArrayList<Node>());
-		getListaNodes().get(pClau).add(pNode);
+		//
+		boolean trobat = false;
+		for (Node node : getListaNodes().get(pClau)) {
+			if (node.getNom().equalsIgnoreCase(pNode.getNom())) {	
+				String strKeyAux = pNode.getHoraris().getHoraris().get(pClau).getHores().keys().nextElement();
+				String[] strHoresAux = pNode.getHoraris().getHoraris().get(pClau).getHores().elements().nextElement();
+				ArrayList<String> arr = new ArrayList<String>();
+				arr.add(strKeyAux);
+				Collections.addAll(arr, strHoresAux);
+				String[] myArray = new String[arr.size()];
+				node.getHoraris().add(pClau, arr.toArray(myArray));
+				trobat = true;
+				break;
+			}			
+		}
+		if (!trobat)
+			getListaNodes().get(pClau).add(pNode);
 	}
 
 	public int tamany(String pClau) {

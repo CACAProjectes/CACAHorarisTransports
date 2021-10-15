@@ -27,19 +27,19 @@ public class ConsultaHoraris {
 		Nodes nodes = new Nodes();
 		for(String linia : linies) {
 			/*
-			 * L4;Estació RubÍ+D;06:30;06:51;07:13;07:35;07:58;08:22;08:46;09:10;09:34;09:58;10:22;10:46;11:10;11:34;11:58;12:22;12:46;13:10;13:34;13:58;14:22;14:46;15:10;15:34;15:58;16:22;16:46;17:10;17:34;17:58;18:22;18:46;19:10;19:34;19:57;20:19;20:41;21:03;21:25;21:46;22:06
+			 * L5;[T]Estació RubÍ+D;F,08:35,09:19,10:03,10:47,11:31,12:15,12:59,13:43,14:27,15:11,15:55,16:39,17:23,18:07,18:51,19:35,20:19,21:01,21:43
 			 */
 			if (linia != null && !linia.equals("")) {
 				String[] strValors = linia.split(Constants.CNT_SEPARADOR_LINIA);
-				Node nodeNou = new Node(strValors);
-				
+				Node nodeNou = new Node(strValors);				
 	        	if (!strClau.equals(strValors[0]) && !strClau.equals("") ) {
 	        		coordX = 0;
 	        		coordY++;
 	        	}
 	        	nodeNou.setCoordenada(new Coordenada(coordX++, coordY));
-	        	Node nodeMultiple = cercarNode(nodes, nodeNou);
-				nodes.addNode(strValors[0], nodeMultiple);	// [CLAU, NODE]
+	        	//Node nodeMultiple = cercarNode(nodes, nodeNou);
+				//nodes.addNode(strValors[0], nodeMultiple);	// [CLAU, NODE]
+	        	nodes.addNode(strValors[0], nodeNou);	// [CLAU, NODE]
 	    		strClau = strValors[0];
 	    		//System.out.print(nodeNou + " - ");
 			}
@@ -53,8 +53,8 @@ public class ConsultaHoraris {
         while (e.hasMoreElements()) {
         	for(Node node : e.nextElement()) {
         		if (node.getNom().equalsIgnoreCase(pNode.getNom())) {
-        			String clauNova = pNode.getHoraris().keys().nextElement();
-        			node.getHoraris().put(clauNova, pNode.getHoraris().get(clauNova));
+        			//String clauNova = pNode.getHoraris().keys().nextElement();
+        			//node.getHoraris().put(clauNova, pNode.getHoraris().get(clauNova));
         			return node;
         		}
         	}        	
