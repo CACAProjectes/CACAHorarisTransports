@@ -2,35 +2,79 @@ package es.xuan.horaristransp;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import es.xuan.horaristransp.file.GestioFitxers;
+import es.xuan.horaristransp.model.Coordenada;
 import es.xuan.horaristransp.model.Node;
+import es.xuan.horaristransp.model.Nodes;
+import es.xuan.horaristransp.utils.Constants;
 
 public class ConsultaHoraris {
 
+
 	public static void main(String[] args) {
-		Node node = carregarNodes2File();
-		System.out.println("");
-		//System.out.println("Nº de nodes: " + nodes.getNodes().size());
-		//System.out.println("Nodes: " + nodes.toString("L4"));
+		Nodes nodes = carregarNodes2File();
+		System.out.println("Nº de nodes L4: " + nodes.tamany("L4"));
+		System.out.println("Nº de nodes L5: " + nodes.tamany("L5"));
 	}
-	
-	private static Node carregarNodes2File() {
+	private static Nodes carregarNodes2File() {
 		ArrayList<String> linies = GestioFitxers.llegirFile("c:\\CACAProjectes\\CACAHorarisTransports\\Documentació\\fitxer_importació_horaris.csv");
-		/*
-		Node node = new Node();
+		String strClau = "";
+		int coordX = 0, coordY = 0;
+		Nodes nodes = new Nodes();
 		for(String linia : linies) {
-			Node nodeNou = new Node(linia);
-			//node.addNode(nodeNou.getDades().keys().nextElement(), nodeNou); // Agafa el primer element del Node, per obtener la CLAU/CATEGORIA
-			node.addNode(nodeNou);
+			/*
+			 * L5;[T]Estació RubÍ+D;F,08:35,09:19,10:03,10:47,11:31,12:15,12:59,13:43,14:27,15:11,15:55,16:39,17:23,18:07,18:51,19:35,20:19,21:01,21:43
+			 */
+			if (linia != null && !linia.equals("")) {
+				String[] strValors = linia.split(Constants.CNT_SEPARADOR_LINIA);
+				Node nodeNou = new Node(strValors);				
+	        	if (!strClau.equals(strValors[0]) && !strClau.equals("") ) {
+	        		coordX = 0;
+	        		coordY++;
+	        	}
+	        	nodeNou.setCoordenada(new Coordenada(coordX++, coordY));
+	        	Node nodeMultiple = cercarNode(nodes, nodeNou);
+	        	if (nodeMultiple != null &&
+	        		nodeMultiple.getHoraris() != null &&
+	        		nodeMultiple.getHoraris().getHoraris().elements() != null
+	        		) {
+	        		if (nodeMultiple.getHoraris().getHoraris().get(nodeNou.getHoraris().getHoraris().keys().nextElement()) == null) {
+	        			// Afegeix la LINIA al node
+	        			nodeMultiple.getHoraris().getHoraris().put(
+	        				nodeNou.getHoraris().getHoraris().keys().nextElement(), 
+	        				nodeNou.getHoraris().getHoraris().elements().nextElement());
+	        		}
+	        		else {
+	        			// Afegeix l'horari al node i LINIA en curs
+		        		nodeMultiple.getHoraris().getHoraris().get(nodeNou.getHoraris().getHoraris().keys().nextElement()).getHores().put(
+		        				nodeNou.getHoraris().getHoraris().elements().nextElement().getHores().keys().nextElement(), 
+		        				nodeNou.getHoraris().getHoraris().elements().nextElement().getHores().elements().nextElement());
+	        		}
+	        	}
+	        	else
+	        		nodes.addNode(strValors[0], nodeNou);	// [CLAU, NODE]
+	    		strClau = strValors[0];
+			}
 		}
-		return node;
-		*/
-		return null;
+		return nodes;
 	}
 
+	private static Node cercarNode(Nodes pNodes, Node pNode) {
+        Enumeration<ArrayList<Node>> e = pNodes.getNodes().elements();  
+        // print elements of hashtable using enumeration
+        while (e.hasMoreElements()) {
+        	for(Node node : e.nextElement()) {
+        		if (node.getNom().equalsIgnoreCase(pNode.getNom())) {
+        			return node;
+        		}
+        	}        	
+        }        	
+		return null;
+	}
 
 	private static String horatiToString(String[] pHorari) {
 		String strRes = "";

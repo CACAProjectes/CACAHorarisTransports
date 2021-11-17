@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+    <dimen name="labelForm">15dp</dimen>
+    <dimen name="labelFormLarge">26dp</dimen>
+    <dimen name="coordX1">30dp</dimen>
+    <dimen name="coordY1">195dp</dimen>
+    <dimen name="coordX2">94dp</dimen>
+    <dimen name="coordY2">195dp</dimen>
+    <dimen name="coordX2Prox">94dp</dimen>
+    <dimen name="coordY2Prox">213dp</dimen>
+    <dimen name="coordX3">343dp</dimen>
+    <dimen name="coordY3">195dp</dimen>
+    <dimen name="coordX4">313dp</dimen>
+    <dimen name="coordY4">167dp</dimen>
+    <dimen name="coordX4Prox">313dp</dimen>
+    <dimen name="coordY4Prox">150dp</dimen>
+    <dimen name="coordX5">65dp</dimen>
+    <dimen name="coordY5">167dp</dimen>
+    <dimen name="coordX6">2dp</dimen>
+    <dimen name="coordY6">167dp</dimen>
+    <dimen name="coordXL4">175dp</dimen>
+    <dimen name="coordYL4">140dp</dimen>
+    <dimen name="coordXL5">200dp</dimen>
+    <dimen name="coordYL5">200dp</dimen>
+    </resources>

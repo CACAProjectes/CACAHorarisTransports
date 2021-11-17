@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_000">#F2E8FF</color>
+    <color name="purple_100">#E6D2FF</color>
+    <color name="purple_200">#8C33F8</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="fosc">#C5C5C5</color>
+    <color name="foscLight">#EDEDED</color>
+    <color name="semaforVerdFons">#B6FF61</color>
+    <color name="semaforVerdText">#4F9300</color>
+    <color name="semaforGrocFons">#FFF27E</color>
+    <color name="semaforGrocText">#988800</color>
+    <color name="semaforVermellFons">#FFB49C</color>
+    <color name="semaforVermellText">#C60D00</color>
+</resources>

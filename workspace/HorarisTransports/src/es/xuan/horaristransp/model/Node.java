@@ -2,14 +2,29 @@ package es.xuan.horaristransp.model;
 
 import java.io.Serializable;
 
+import es.xuan.horaristransp.utils.Constants;
+
 public class Node implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	protected String nom;
-	protected Node seguent;
 	
-	public Node(String pNom) {
-		nom = pNom;
+	private String nom;
+	private Horaris horaris;
+	private Coordenada coordenada;
+	
+	public Node(String[] strValors) {
+		/*
+		 * L5;[T]Estació RubÍ+D;F,08:35,09:19,10:03,10:47,11:31,12:15,12:59,13:43,14:27,15:11,15:55,16:39,17:23,18:07,18:51,19:35,20:19,21:01,21:43
+		 */
+		String[] valors = new String[0];
+		setNom(strValors[1]);			// Nom - Estació RubÍ+D
+		if (strValors.length > 2) {		// No tots els nodes tenen horaris
+			// Horaris - F,08:35,09:19,10:03,10:47,11:31,12:15,12:59,13:43,14:27,15:11,15:55,16:39,17:23,18:07,18:51,19:35,20:19,21:01,21:43
+			valors = strValors[2].split(Constants.CNT_SEPARADOR_COMA);
+			setHoraris(new Horaris());
+			// L4 - F,08:35,09:19,10:03,10:47,11:31,12:15,...
+			getHoraris().add(strValors[0], valors);
+		}
+		setCoordenada(new Coordenada(0,0));
 	}
 	public String getNom() {
 		return nom;
@@ -17,68 +32,33 @@ public class Node implements Serializable {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public Node getSeguent() {
-		return seguent;
+	/**
+	 * @return the coordenada
+	 */
+	public Coordenada getCoordenada() {
+		return coordenada;
 	}
-	public void setSeguent(Node seguent) {
-		this.seguent = seguent;
-	}
-	public void addNodeFinal(Node pNode) {
-		if (getSeguent() == null)
-			setSeguent(pNode);
-		else
-			getSeguent().addNodeFinal(pNode);
-	}
+	/**
+	 * @param coordenada the coordenada to set
+	 */
+	public void setCoordenada(Coordenada coordenada) {
+		this.coordenada = coordenada;
+	}	
 	
-	// PP - P5 - P0 - P1 - P6 - P2 - P3 - P4
-
 	@Override
 	public String toString() {
-		if (getSeguent() == null)
-			return getNom();			
-		return getNom() + " - " + getSeguent().toString();
+		return getNom() + getCoordenada();
 	}
-	public void addNode(Node pNode) {
-		pNode.setSeguent(getSeguent());
-		setSeguent(pNode);
+	/**
+	 * @return the horaris
+	 */
+	public Horaris getHoraris() {
+		return horaris;
 	}
-	public void addNode(Node pNode, long pPosicio) {
-		if (pPosicio < 1 || getSeguent() == null)
-			addNode(pNode);
-		else
-			getSeguent().addNode(pNode, pPosicio-1);
-	}
-	public void addNode(Node pNode, Node pNodeVar) {
-		Node node = pNodeVar.getSeguent();
-		pNodeVar.setSeguent(pNode);
-		pNode.setSeguent(node);
-	}
-	public Node getNode(String pNom) {
-		if (getNom().equalsIgnoreCase(pNom) || getSeguent() == null)
-			return this;
-		return getSeguent().getNode(pNom);
-	}
-	
-	public Node getNode(int pIndex) {
-		if (pIndex < 0 || getSeguent() == null)
-			return this;
-		return getSeguent().getNode(pIndex - 1);
-	}
-	public long length() {
-		if (getSeguent() == null)
-			return -1;
-		else
-			return getSeguent().length() + 1;
-	}
-	public void delNode(Node pNodeVar) {
-		/*
-		if (getNom().equalsIgnoreCase(pNodeVar.getNom()) || getSeguent() == null)
-			setSeguent(pNodeVar.getSeguent());
-		else 
-			getSeguent().delNode(pNodeVar);
-		*/
-		Node node = pNodeVar.getSeguent();
-		Node node1 = node.getSeguent();
-		pNodeVar.setSeguent(node1);
+	/**
+	 * @param horaris the horaris to set
+	 */
+	public void setHoraris(Horaris horaris) {
+		this.horaris = horaris;
 	}
 }

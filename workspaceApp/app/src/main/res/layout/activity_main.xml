@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clQuini"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_000"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/llPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llTitol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_200"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTitol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/labelFormLarge"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                app:srcCompat="@mipmap/ic_logo_foreground" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvDataAvui"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp"
+                android:text="@string/data_avui"
+                android:textAlignment="center"
+                android:textColor="@color/purple_200"
+                android:textSize="@dimen/labelFormLarge"
+                android:textStyle="normal|bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvFeiner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/foscLight"
+                android:paddingHorizontal="10dp"
+                android:text="@string/txtFeiner"
+                android:textColor="@color/black"
+                android:textSize="@dimen/labelForm"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDissabte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/fosc"
+                android:paddingHorizontal="10dp"
+                android:text="@string/txtDissabte"
+                android:textColor="@color/foscLight"
+                android:textSize="@dimen/labelForm"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvFestiu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/fosc"
+                android:paddingHorizontal="10dp"
+                android:text="@string/txtFestiu"
+                android:textColor="@color/foscLight"
+                android:textSize="@dimen/labelForm"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivPlanol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@mipmap/ic_planol_red_foreground" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_100"
+            android:orientation="vertical"
+            android:paddingVertical="5dp">
+
+            <LinearLayout
+                android:id="@+id/ll14a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivFavorita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    app:srcCompat="@android:drawable/btn_star_big_on" />
+
+                <TextView
+                    android:id="@+id/tvLiniaFava"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/teal_200"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="0dp"
+                    android:text="L5"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tvParadaFava"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="0dp"
+                    android:text="Països Catalans"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tvTempsFava"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="0dp"
+                    android:text="10:35"
+                    android:textColor="@color/teal_200"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/tvProximFava1"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/semaforVerdFons"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="0dp"
+                    android:text="?"
+                    android:textColor="@color/semaforVerdText"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal|bold" />
+                <TextView
+                    android:id="@+id/tvProximFava2"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/semaforVerdFons"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="0dp"
+                    android:text="?"
+                    android:textColor="@color/semaforVerdText"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll14b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivFavoritb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="5dp"
+                    app:srcCompat="@android:drawable/btn_star_big_on" />
+
+                <TextView
+                    android:id="@+id/tvLiniaFavb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_500"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="0dp"
+                    android:text="L4"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tvParadaFavb"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="0dp"
+                    android:text="Can Rosés"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tvTempsFavb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="0dp"
+                    android:text="10:35"
+                    android:textColor="@color/purple_500"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/tvProximFavb1"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/semaforVerdFons"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="0dp"
+                    android:text="?"
+                    android:textColor="@color/semaforVerdText"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/tvProximFavb2"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/semaforVerdFons"
+                    android:foregroundTint="@color/black"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="0dp"
+                    android:text="?"
+                    android:textColor="@color/semaforVerdText"
+                    android:textSize="@dimen/labelForm"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvLinia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="0dp"
+                        android:text="@string/linies"
+                        android:textSize="@dimen/labelForm"
+                        android:textStyle="normal" />
+
+                    <Spinner
+                        android:id="@+id/spLinies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:paddingVertical="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvParades"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="0dp"
+                        android:text="@string/parades"
+                        android:textSize="@dimen/labelForm"
+                        android:textStyle="normal" />
+
+                    <Spinner
+                        android:id="@+id/spParades"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:paddingVertical="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvJornades"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="0dp"
+                        android:text="@string/jornades"
+                        android:textSize="@dimen/labelForm"
+                        android:textStyle="normal" />
+
+                    <Spinner
+                        android:id="@+id/spJornades"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:paddingVertical="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="0dp"
+                        android:text="@string/data"
+                        android:textSize="@dimen/labelForm"
+                        android:textStyle="normal" />
+
+                    <EditText
+                        android:id="@+id/etData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:text="14/11/2021" />
+
+                    <TextView
+                        android:id="@+id/tvDataSeparador"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="0dp"
+                        android:text=" - "
+                        android:textSize="@dimen/labelForm"
+                        android:textStyle="normal" />
+
+                    <EditText
+                        android:id="@+id/etDataHora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:text="12:15" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:textAlignment="center">
+
+                <TextView
+                    android:id="@+id/tvHoraArribada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="0dp"
+                    android:text="09:35"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/labelFormLarge"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/tvHoraArribadaProx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/semaforVermellFons"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="0dp"
+                    android:text="5m"
+                    android:textAlignment="center"
+                    android:textColor="@color/semaforVermellText"
+                    android:textSize="@dimen/labelFormLarge"
+                    android:textStyle="normal|bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--                                 -->
+    <!--            Horaris              -->
+    <!--                                 -->
+    <TextView
+        android:id="@+id/tvPACATL5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="0dp"
+        android:text="09:10"
+        android:textColor="@color/teal_200"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordX2"
+        android:translationY="@dimen/coordY2" />
+
+    <TextView
+        android:id="@+id/tvPACATL5Prox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/semaforVerdFons"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="0dp"
+        android:text="10m"
+        android:textColor="@color/semaforVerdText"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordX2Prox"
+        android:translationY="@dimen/coordY2Prox" />
+
+    <TextView
+        android:id="@+id/tvCROSL5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="0dp"
+        android:text="09:30"
+        android:textColor="@color/teal_200"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordX3"
+        android:translationY="@dimen/coordY3" />
+
+    <TextView
+        android:id="@+id/tvCROSL4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="0dp"
+        android:text="09:30"
+        android:textColor="@color/purple_500"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordX4"
+        android:translationY="@dimen/coordY4" />
+
+    <TextView
+        android:id="@+id/tvCROSL4Prox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/semaforGrocFons"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="0dp"
+        android:text="2m"
+        android:textColor="@color/semaforGrocText"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordX4Prox"
+        android:translationY="@dimen/coordY4Prox" />
+
+    <TextView
+        android:id="@+id/tvPACATL4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="0dp"
+        android:text="09:30"
+        android:textColor="@color/purple_500"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordX5"
+        android:translationY="@dimen/coordY5" />
+
+    <TextView
+        android:id="@+id/tvL5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:paddingHorizontal="3dp"
+        android:paddingVertical="0dp"
+        android:text="L5"
+        android:textColor="@color/white"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordXL5"
+        android:translationY="@dimen/coordYL5" />
+
+    <TextView
+        android:id="@+id/tvL4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:paddingHorizontal="3dp"
+        android:paddingVertical="0dp"
+        android:text="L4"
+        android:textColor="@color/white"
+        android:textSize="@dimen/labelForm"
+        android:textStyle="normal|bold"
+        android:translationX="@dimen/coordXL4"
+        android:translationY="@dimen/coordYL4" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
