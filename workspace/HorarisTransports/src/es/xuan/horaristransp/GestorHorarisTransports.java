@@ -43,7 +43,7 @@ public class GestorHorarisTransports implements Serializable {
 		return mHorarisTrans;
 	}
 	
-	public static ArrayList<Parada> obtenirParadesLinia(int pLinia) {
+	public static ArrayList<Parada> obtenirParadesLinia(int pLinia, int pSentit) {
 		//	obtenirLinies
 		Thread thread = new Thread(){
 			public void run(){
@@ -52,7 +52,7 @@ public class GestorHorarisTransports implements Serializable {
 				String strUrl = CTE_OBTENIR_PARADES_LINIA.replaceFirst("#", "" + pLinia) + mHorarisTrans.getIdioma();
 				String contingut = getContingutURL(strUrl);
 				// Treure informació de la Web				
-				mArrParades = parserObtenirParadesLinia(contingut);
+				mArrParades = parserObtenirParadesLinia(contingut, pSentit);
 			}
 		};
 		try {
@@ -60,16 +60,16 @@ public class GestorHorarisTransports implements Serializable {
 			thread.join(CTE_TEMPS_MAX_EXECUCIO);
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
-				System.out.println("Thread obtenirLinies NO finalizat");
+				System.out.println("Thread obtenirParadesLinia NO finalizat");
 				// Finalitzar Thread
 				thread.interrupt();
 				// Treure informació constant NO de Web 
 				// TODO recollir dades del REPOSITORI GENERAL
 			}
 			// Consulta finalitzada
-			System.out.println("Thread obtenirLinies finalizat");
+			System.out.println("Thread obtenirParadesLinia finalizat");
 		} catch (InterruptedException e) {
-			System.out.println("Thread obtenirLinies Interrumput");
+			System.out.println("Thread obtenirParadesLinia Interrumput");
 			thread.interrupt();
 			e.printStackTrace();
 		}
@@ -173,14 +173,17 @@ public class GestorHorarisTransports implements Serializable {
 		int ind1 = 0;
 		int ind2 = ind0;
 		do {
-			ind1 = pContingut.indexOf("<option value=", ind2);
-			ind2 = pContingut.indexOf("</option>", ind1);
-			//
-			Linia linia = tractarLinia(pContingut.substring(ind1, ind2));
-			if (linia == null)
+			try {
+				ind1 = pContingut.indexOf("<option value=", ind2);
+				ind2 = pContingut.indexOf("</option>", ind1);
+				//
+				Linia linia = tractarLinia(pContingut.substring(ind1, ind2));
+				if (linia == null)
+					break;
+				arrLinies.add(linia);
+			} catch (Exception ex) {	
 				break;
-			arrLinies.add(linia);
-			
+			}
 		} while (ind1 > 0);
 		
 		return arrLinies;
@@ -190,20 +193,27 @@ public class GestorHorarisTransports implements Serializable {
 		/*
 		 * <option value="1-2"  title="EL PINAR-CAN SERRAFOSSÀ"> L1. Can Serrafossà-El Pinar</option>
 		 */
-		int ind1 = pContingut.indexOf("value=\"") + "value=\"".length();
-		int ind2 = pContingut.indexOf("\"", ind1);
-		String strLiniaSentit = pContingut.substring(ind1, ind2);
-		//
-		ind1 = pContingut.indexOf(">", ind2);
-		ind2 = pContingut.indexOf(".", ind1) + 1;
-		String strNomLiniaSentit = pContingut.substring(ind2);
-		//
-		if (ind1 <= 0 || ind2 <= 0)
-			return null;
-		return new Linia(
-			Integer.parseInt(strLiniaSentit.split("-")[0]), 
-			Integer.parseInt(strLiniaSentit.split("-")[1]), 
-			strNomLiniaSentit.trim());
+		Linia linia = null;
+		try {
+			int ind1 = pContingut.indexOf("value=\"") + "value=\"".length();
+			int ind2 = pContingut.indexOf("\"", ind1);
+			String strLiniaSentit = pContingut.substring(ind1, ind2);
+			//
+			ind1 = pContingut.indexOf(">", ind2);
+			ind2 = pContingut.indexOf(".", ind1) + 1;
+			String strNomLiniaSentit = pContingut.substring(ind2);
+			//
+			if (ind1 <= 0 || ind2 <= 0)
+				return null;
+			//
+			linia = new Linia(
+					Integer.parseInt(strLiniaSentit.split("-")[0]), 
+					Integer.parseInt(strLiniaSentit.split("-")[1]), 
+					strNomLiniaSentit.trim());
+		}
+		catch (Exception ex) {			
+		}
+		return linia;
 	}
 
 	public static ArrayList<Linia> parserObtenirLinies() {
@@ -229,7 +239,7 @@ public class GestorHorarisTransports implements Serializable {
 	}
 	
 
-	public static ArrayList<Parada> parserObtenirParadesLinia(String pContingut) {
+	public static ArrayList<Parada> parserObtenirParadesLinia(String pContingut, int pSentit) {
 		/*
 		 	<area id="HP-136" shape="rect" coords="87,133,228,157" href="index.asp?seccion=horarioLinia&idParada=136&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Can Rosés" title="Can Rosés" class="muestraTitle"/>
 			<area id="HP-137" shape="rect" coords="91,164,198,183" href="index.asp?seccion=horarioLinia&idParada=137&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Terranova" title="Terranova" class="muestraTitle"/>
@@ -274,28 +284,69 @@ public class GestorHorarisTransports implements Serializable {
 		 */
 		ArrayList<Parada> arrParades = new ArrayList<Parada>();
 		//
+		int ind00 = pContingut.indexOf("mapaCiutat");	// Fi de les parades
 		int ind0 = 0;
 		int ind1 = 0;
-		int ind2 = 0;
-		int ind3 = 0;
+		// mapaLiniaIZQ
+		ind0 = pContingut.indexOf("<map name=\"mapaLiniaIZQ\">");			
 		do {
-			ind0 = pContingut.indexOf("coords=");			// coords="97,233,195,252"
-			ind1 = pContingut.indexOf("idSentido=", ind2);	// idSentido=8
-			ind2 = pContingut.indexOf("idLinia=", ind1);	// idLinia=5
-			ind3 = pContingut.indexOf("title=", ind1);		// title="Antoni Sedó"
-			//
-			Parada parada = tractarParada(pContingut.substring(ind1, ind2));
-			if (parada == null)
+			try {
+				ind0 = pContingut.indexOf("<area", ind1) + "<area".length();			// <area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni Sedó" title="Antoni Sedó" class="muestraTitle"/>
+				ind1 = pContingut.indexOf("\"/>", ind0);	
+				if (ind0 < 0 || ind1 < 0)
+					break;
+				//
+				Parada parada = tractarParada(pContingut.substring(ind0, ind1), pSentit);
+				if (parada != null)
+					arrParades.add(parada);
+				// Fi de parades?
+				if (ind0 > ind00 || ind1 > ind00)
+					break;
+			}
+			catch (Exception ex) {	
 				break;
-			arrParades.add(parada);
-			
+			}
 		} while (ind1 > 0);
 		//
 		return arrParades;
 	}
 
-	private static Parada tractarParada(String pContingutParada) {
-		// TODO Auto-generated method stub
-		return null;
+	private static Parada tractarParada(String pContingut, int pSentit) {
+		/*
+		 * <area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni Sedó" title="Antoni Sedó" class="muestraTitle"/>
+		 */
+		Parada parada = null;
+		try {
+			// coords
+			int ind00 = pContingut.indexOf("coords=\"") + "coords=\"".length();			// coords="97,233,195,252"
+			int ind01 = pContingut.indexOf("\"", ind00);			
+			String varCoord = pContingut.substring(ind00, ind01);
+			String[] varCoordSplit = varCoord.split(",");
+			// idParada
+			int ind40 = pContingut.indexOf("idParada=") + "idParada=".length();			// idParada=775
+			int ind41 = pContingut.indexOf("&", ind40);			
+			String varIdParada = pContingut.substring(ind40, ind41);
+			// idSentido		
+			int ind10 = pContingut.indexOf("idSentido=", ind01) + "idSentido=".length();	// idSentido=8
+			int ind11 = pContingut.indexOf("&", ind10);	
+			String varSentit = pContingut.substring(ind10, ind11);
+			if (Integer.parseInt(varSentit) != pSentit)
+				return null;
+			// idLinia
+			int ind20 = pContingut.indexOf("idLinia=", ind11) + "idLinia=".length();	// idSentido=8
+			int ind21 = pContingut.indexOf("&", ind20);	
+			//String varLinia = pContingut.substring(ind20, ind21);
+			// title
+			int ind30 = pContingut.indexOf("title=\"", ind21) + "title=\"".length();	// idSentido=8
+			int ind31 = pContingut.indexOf("\"", ind30);	
+			String varNomParada = pContingut.substring(ind30, ind31);
+			//
+			parada = new Parada(Integer.parseInt(varIdParada), Integer.parseInt(varCoordSplit[1]), varNomParada);
+		}
+		catch(Exception ex) {			
+		}
+		//
+		return parada;
 	}
 }
+

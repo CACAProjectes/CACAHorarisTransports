@@ -14,7 +14,22 @@ public class Parada implements Serializable {
 	private int tempsEspera1;
 	private int tempsEspera2;
 	private boolean esOrigen;
+	private int ordre;
 	
+	public Parada(int pIdParada, int pOrdre, String pNomParada) {
+		idParada = pIdParada;
+		nomParada = pNomParada;
+		ordre = pOrdre;
+	}
+	
+	public int getOrdre() {
+		return ordre;
+	}
+
+	public void setOrdre(int ordre) {
+		this.ordre = ordre;
+	}
+
 	public int getIdParada() {
 		return idParada;
 	}

@@ -6,4 +6,5 @@
  *
  */
 module HorarisTransports {
+	requires jdk.compiler;
 }

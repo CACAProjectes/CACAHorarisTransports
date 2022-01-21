@@ -6,8 +6,9 @@ package es.xuan.horaristransp.utils;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import java.util.Locale;
 /**
  * @author jcamposp
  *
@@ -51,5 +52,16 @@ public class Utils implements Serializable {
 	private static boolean esFestiu(Calendar pCal) {
 		// TODO Afegir Calendari Anual amb els festius de Rubí
 		return false;
-	}	
+	}
+	
+	public static String formatDataComplerta(Calendar pCal, String pIdioma) {
+		String pattern = "EEEEE, dd/MM/yyyy - HH:mm";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale(pIdioma.toLowerCase(), pIdioma.toUpperCase()));
+		return capitalize(simpleDateFormat.format(pCal.getTime()));
+	}
+	private static String capitalize(String str)
+	{
+	    if(str == null) return str;
+	    return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
 }

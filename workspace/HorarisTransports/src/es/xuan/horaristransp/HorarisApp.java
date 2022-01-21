@@ -1,6 +1,11 @@
 package es.xuan.horaristransp;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import es.xuan.horaristransp.model.HorarisTransports;
+import es.xuan.horaristransp.model.Parada;
+import es.xuan.horaristransp.utils.Utils;
 
 public class HorarisApp {
 
@@ -8,6 +13,9 @@ public class HorarisApp {
 		//
 		HorarisTransports horarisTrans = GestorHorarisTransports.getInstance();
 		//
-		System.out.println(horarisTrans.getAvui());
+		ArrayList<Parada> parades = GestorHorarisTransports.obtenirParadesLinia(5, 8);
+		//
+		System.out.println(Utils.formatDataComplerta(horarisTrans.getAvui(), horarisTrans.getIdioma()));
+		System.out.println("Nº parades: " + parades.size());
 	}
 }
