@@ -1,3 +1,137 @@
+Filtro para linia, parada origen, parada destino y jornada:
+	
+	Línea:
+		https://rubibus.com/index.asp?seccion=calculoRecorrido&lang=es
+
+			<option value="1-2"  title="EL PINAR-CAN SERRAFOSSÀ"> L1. Can Serrafossà-El Pinar</option>
+			<option value="1-1"  title="EL PINAR-CAN SERRAFOSSÀ"> L1. El Pinar-Can Serrafossà</option>
+			<option value="2-4"  title="CAN VALLHONRAT-EL PINAR"> L2. El Pinar/Can Rosés-Can Vallhonrat</option>
+			<option value="2-3"  title="CAN VALLHONRAT-EL PINAR"> L2. Can Vallhonrat-El Pinar/Can Rosés</option>
+			<option value="3-14" title="ESTACIÓ RUBÍ+D-CASTELLNOU"> L3. Estació RubÍ+D-Castellnou</option>
+			<option value="3-13" title="ESTACIÓ RUBÍ+D-CASTELLNOU"> L3. Castellnou-Estació RubÍ+D</option>
+			<option value="4-6"  title="ESTACIÓ RUBÍ+D-CAN ROSÉS"> L4. Can Rosés-Estació RubÍ+D</option>
+			<option value="4-5"  title="ESTACIÓ RUBÍ+D-CAN ROSÉS"> L4. Estació RubÍ+D-Can Rosés</option>
+			<option value="5-8"  title="CAN ROSÉS-ESTACIÓ RUBÍ+D"> L5. Estació RubÍ+D-Can Rosés</option>
+			<option value="5-7"  title="CAN ROSÉS-ESTACIÓ RUBÍ+D"> L5. Can Rosés-Estació RubÍ+D</option>
+			<option value="6-12" title="RUBÍ SUD-POL. LA BASTIDA"> L6. Pol. La Bastida-Pol. Rubí Sud</option>
+			<option value="6-9"  title="RUBÍ SUD-POL. LA BASTIDA"> L6. Pol. Rubí Sud-Pol. La Bastida</option>
+			<option value="7-16" title="ESTACIÓ RUBÍ+D-SANT MUÇ"> L7. Sant Muç-Estació RubÍ+D</option>
+			<option value="7-15" title="ESTACIÓ RUBÍ+D-SANT MUÇ"> L7. Estació RubÍ+D-Sant Muç</option>
+
+
+	Jornada:
+		https://rubibus.com/consultes.asp?proces=obteJornades&idSentit=8&parada=154&idLinea=5&idioma=ca
+			3>DISSABTES<7>FESTIUS AGOST<6>DISSABTES AGOST<5>FEINERS AGOST<4>FESTIUS<1>FEINERS LECTIUS<
+
+	Idioma:
+		es
+		ca
+		
+	Parades en orden alfabético:
+		https://rubibus.com/consultes.asp?proces=PassaLinea&idLinea=5&idSentido=8
+			161>25 de Setembre<160>Anton de Borja<775>Antoni Sedó<818>Antoni Sedó Mercadal<378>Biblioteca<168>Ca nOriol<175>Can Rosés<375>Cervantes<157>Doctor Ferran<172>El Ferrol<173>Els Nius<154>Estació RubÍ+D<171>Font del Ferro<155>Joan Puig<167>Lourdes<377>Magí Ramentol<170>Mallorca<376>Mercat<174>Olimpíades<158>Països Catalans<166>Plana de Can Bertran<374>Sant Cugat<169>Segòvia<156>Servet<
+		https://rubibus.com/consultes.asp?proces=PassaLinea&idLinea=5&idSentido=7
+			851>Bullidor<147>Cadmo<136>Can Rosés <152>Espoz i Mina<153>Estació RubÍ+D<140>La Serreta<142>Orso<146>Pau Clarís<139>Primer de Maig<141>Sabadell<151>Sant Joan<143>Santa Eulàlia<145>Sardana<138>Sevilla<137>Terranova<144>Zamenhoff<
+
+	Parades sin orden - MAPA coordenadas - Necessita ordenació per la 2ª coordenada ASC:
+		https://rubibus.com/index.asp?seccion=planolinia&lang=es&linia=5
+			<area id="HP-136" shape="rect" coords="87,133,228,157" href="index.asp?seccion=horarioLinia&idParada=136&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Can Rosés" title="Can Rosés" class="muestraTitle"/>
+			<area id="HP-137" shape="rect" coords="91,164,198,183" href="index.asp?seccion=horarioLinia&idParada=137&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Terranova" title="Terranova" class="muestraTitle"/>
+			<area id="HP-138" shape="rect" coords="95,193,180,214" href="index.asp?seccion=horarioLinia&idParada=138&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sevilla" title="Sevilla" class="muestraTitle"/>
+			<area id="HP-139" shape="rect" coords="96,227,211,244" href="index.asp?seccion=horarioLinia&idParada=139&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Primer de Maig" title="Primer de Maig" class="muestraTitle"/>
+			<area id="HP-140" shape="rect" coords="98,254,187,275" href="index.asp?seccion=horarioLinia&idParada=140&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="La Serreta" title="La Serreta" class="muestraTitle"/>
+			<area id="HP-141" shape="rect" coords="94,283,171,302" href="index.asp?seccion=horarioLinia&idParada=141&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sabadell" title="Sabadell" class="muestraTitle"/>
+			<area id="HP-142" shape="rect" coords="94,310,168,328" href="index.asp?seccion=horarioLinia&idParada=142&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Orso" title="Orso" class="muestraTitle"/>
+			<area id="HP-143" shape="rect" coords="89,338,191,354" href="index.asp?seccion=horarioLinia&idParada=143&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Santa Eulàlia" title="Santa Eulàlia" class="muestraTitle"/>
+			<area id="HP-144" shape="rect" coords="98,367,191,387" href="index.asp?seccion=horarioLinia&idParada=144&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Zamenhoff" title="Zamenhoff" class="muestraTitle"/>
+			<area id="HP-145" shape="rect" coords="91,367,178,388" href="index.asp?seccion=horarioLinia&idParada=145&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sardana" title="Sardana" class="muestraTitle"/>
+			<area id="HP-146" shape="rect" coords="89,424,192,442" href="index.asp?seccion=horarioLinia&idParada=146&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Pau Clarís" title="Pau Clarís" class="muestraTitle"/>
+			<area id="HP-147" shape="rect" coords="96,452,166,475" href="index.asp?seccion=horarioLinia&idParada=147&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Cadmo" title="Cadmo" class="muestraTitle"/>
+			<area id="HP-151" shape="rect" coords="93,515,183,537" href="index.asp?seccion=horarioLinia&idParada=151&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sant Joan" title="Sant Joan" class="muestraTitle"/>
+			<area id="HP-152" shape="rect" coords="93,534,209,562" href="index.asp?seccion=horarioLinia&idParada=152&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Espoz i Mina" title="Espoz i Mina" class="muestraTitle"/>
+			<area id="HP-153" shape="rect" coords="90,566,225,592" href="index.asp?seccion=horarioLinia&idParada=153&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Estació RubÍ+D" title="Estació RubÍ+D" class="muestraTitle"/>
+			<area id="HP-851" shape="rect" coords="84,482,171,499" href="index.asp?seccion=horarioLinia&idParada=851&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Bullidor" title="Bullidor" class="muestraTitle"/>
+
+			<area id="HP-154" shape="rect" coords="73,134,210,156" href="index.asp?seccion=horarioLinia&idParada=154&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Estació RubÍ+D" title="Estació RubÍ+D" class="muestraTitle"/>
+			<area id="HP-155" shape="rect" coords="91,157,185,176" href="index.asp?seccion=horarioLinia&idParada=155&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Joan Puig" title="Joan Puig" class="muestraTitle"/>
+			<area id="HP-156" shape="rect" coords="90,180,158,194" href="index.asp?seccion=horarioLinia&idParada=156&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Servet" title="Servet" class="muestraTitle"/>
+			<area id="HP-157" shape="rect" coords="93,199,216,217" href="index.asp?seccion=horarioLinia&idParada=157&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Doctor Ferran" title="Doctor Ferran" class="muestraTitle"/>
+			<area id="HP-158" shape="rect" coords="91,217,217,233" href="index.asp?seccion=horarioLinia&idParada=158&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Països Catalans" title="Països Catalans" class="muestraTitle"/>
+			<area id="HP-160" shape="rect" coords="90,257,259,274" href="index.asp?seccion=horarioLinia&idParada=160&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Anton de Borja" title="Anton de Borja" class="muestraTitle"/>
+			<area id="HP-161" shape="rect" coords="89,278,223,293" href="index.asp?seccion=horarioLinia&idParada=161&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="25 de Setembre" title="25 de Setembre" class="muestraTitle"/>
+			<area id="HP-166" shape="rect" coords="91,395,235,410" href="index.asp?seccion=horarioLinia&idParada=166&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Plana de Can Bertran" title="Plana de Can Bertran" class="muestraTitle"/>
+			<area id="HP-167" shape="rect" coords="93,416,176,431" href="index.asp?seccion=horarioLinia&idParada=167&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Lourdes" title="Lourdes" class="muestraTitle"/>
+			<area id="HP-168" shape="rect" coords="94,435,179,450" href="index.asp?seccion=horarioLinia&idParada=168&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Ca nOriol" title="Ca nOriol" class="muestraTitle"/>
+			<area id="HP-169" shape="rect" coords="79,455,181,470" href="index.asp?seccion=horarioLinia&idParada=169&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Segòvia" title="Segòvia" class="muestraTitle"/>
+			<area id="HP-170" shape="rect" coords="78,474,191,491" href="index.asp?seccion=horarioLinia&idParada=170&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Mallorca" title="Mallorca" class="muestraTitle"/>
+			<area id="HP-172" shape="rect" coords="94,513,179,532" href="index.asp?seccion=horarioLinia&idParada=172&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="El Ferrol" title="El Ferrol" class="muestraTitle"/>
+			<area id="HP-171" shape="rect" coords="75,495,218,510" href="index.asp?seccion=horarioLinia&idParada=171&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Font del Ferro" title="Font del Ferro" class="muestraTitle"/>
+			<area id="HP-173" shape="rect" coords="94,533,171,551" href="index.asp?seccion=horarioLinia&idParada=173&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Els Nius" title="Els Nius" class="muestraTitle"/>
+			<area id="HP-174" shape="rect" coords="73,554,191,568" href="index.asp?seccion=horarioLinia&idParada=174&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Olimpíades" title="Olimpíades" class="muestraTitle"/>
+			<area id="HP-175" shape="rect" coords="71,573,198,592" href="index.asp?seccion=horarioLinia&idParada=175&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Can Rosés" title="Can Rosés" class="muestraTitle"/>
+			<area id="HP-374" shape="rect" coords="91,296,189,315" href="index.asp?seccion=horarioLinia&idParada=374&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Sant Cugat" title="Sant Cugat" class="muestraTitle"/>
+			<area id="HP-375" shape="rect" coords="95,315,193,334" href="index.asp?seccion=horarioLinia&idParada=375&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Cervantes" title="Cervantes" class="muestraTitle"/>
+			<area id="HP-376" shape="rect" coords="95,337,170,354" href="index.asp?seccion=horarioLinia&idParada=376&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Mercat" title="Mercat" class="muestraTitle"/>
+			<area id="HP-377" shape="rect" coords="95,356,210,372" href="index.asp?seccion=horarioLinia&idParada=377&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Magí Ramentol" title="Magí Ramentol" class="muestraTitle"/>
+			<area id="HP-378" shape="rect" coords="94,377,192,393" href="index.asp?seccion=horarioLinia&idParada=378&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Biblioteca" title="Biblioteca" class="muestraTitle"/>
+			<area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni Sedó" title="Antoni Sedó" class="muestraTitle"/>
+				
+	Obtenir temps d'espera a la parada	
+		https://rubibus.com/consultes.asp?proces=ConsultarProximos&idLinia=5&idSentido=8&IdJornada=1&NomParada=158
+			<tr style='background-color:#fff299;'>
+				<td class="quantTrigaraLeft"></td>
+				<td class="quantTrigaraCenter">
+					<img src="DOCUMENTS/Menu/Linies/l5no.png" width="15px">
+				</td>
+				<td class="normal negro" title="Can Rosés">Can Rosés</td>
+				<td class="normal negro">16&nbsp;min.</td>
+				<td class="normal negro"></td>
+			</tr>
+			<tr >
+				<td class="quantTrigaraLeft"></td>
+				<td class="quantTrigaraCenter">
+					<img src="DOCUMENTS/Menu/Linies/l5no.png" width="15px">
+				</td>
+				<td class="normal negro" title="Can Rosés">Can Rosés</td>
+				<td class="normal negro">40&nbsp;min.</td>
+				<td class="normal negro"></td>
+			</tr>
+
+	Obtenir horaris	parada - Necessita ordenació per hores ASC
+		https://rubibus.com/consultes.asp?proces=HorarioLinea&idioma=ca&idLinia=5&idSentido=8&IdJornada=1&NomParada=158
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				 <div style="background:#d8d9da;">&nbsp;6:43</div>
+			</td>
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				 <div style="background:#d8d9da;">&nbsp;7:05</div>
+			</td>
+
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				&nbsp;
+			</td>
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				 <div style="background:#d8d9da;">&nbsp;7:27</div>
+			</td>
+		
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				 <div style="background:#d8d9da;">&nbsp;18:40</div>
+			</td>
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				 <div style="background:#d8d9da;">&nbsp;19:28</div>
+			</td>
+		
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				 <div style="background:#d8d9da;">&nbsp;20:35</div>
+			</td>
+			<td style="border-bottom:5px solid transparent;text-align:center;color:black;" class="cosTaula text02">
+				 <div style="background:#d8d9da;">&nbsp;21:39</div>
+			</td>										
+
+
+*********************************************************************************************************************************
+***	APUNTS
+*********************************************************************************************************************************
+
 https://rubibus.com/index.asp?seccion=horarioLinia&idioma=es&idLinia=5&idSentido=8&IdJornada=1&idParada=158
 
 
