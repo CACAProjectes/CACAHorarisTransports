@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">HorarisTransportsApp</string>
+    <string name="data_avui">Dimecres, 19/01/2022 - 15:18</string>
+    <string name="favorits">Favorits</string>
+    <string name="filtres">Filtres</string>
+
+    <string name="urlGmail">mailto:cacaprojectsapps@gmail.com?Subject=Comentaris CACAVolei</string>
+    <string name="urlFacebook">https://www.facebook.com/cacaprojects.app.9/</string>
+    <string name="urlTwitter">https://twitter.com/CaCaApps</string>
+    <string name="urlInstagram">https://www.instagram.com/cacaprojectsapps/</string>
+    <string name="urlRUBIBUS">https://rubibus.com/index.asp</string>
+    <string name="liniesSentits">Linies i sentits:</string>
+    <string name="parades">Parades:</string>
+
+</resources>

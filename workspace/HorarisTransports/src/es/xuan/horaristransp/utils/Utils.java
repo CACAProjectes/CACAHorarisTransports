@@ -64,4 +64,10 @@ public class Utils implements Serializable {
 	    if(str == null) return str;
 	    return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
+	public static String omplirHora(String pHora) {
+		if (pHora.length() < 5) {
+			return "0" + pHora;
+		}
+		return pHora;
+	}
 }

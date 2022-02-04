@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llElementLinia"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="2dp"
+    android:background="@color/colorL5Fons"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvElementLinia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/paddingLinia"
+            android:text="L5"
+            android:textSize="@dimen/labelFormLarge"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|start"
+        android:paddingLeft="@dimen/paddingLiniaSentit"
+        android:orientation="vertical">
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tvElementLiniaSentit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ESTACIÓ RUBÍ+D-CAN ROSÉS"
+            android:textSize="@dimen/labelFormShort"
+            android:textColor="@color/black"
+            />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|start"
+            android:orientation="horizontal">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|start"
+                android:orientation="vertical">
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tvElementOrigen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ORIGEN: Països Catalans"
+                    android:textSize="@dimen/labelFormXXShort"
+                    android:textColor="@color/black"
+                    />
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tvElementDesti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DESTÍ: Can Rosés"
+                    android:textSize="@dimen/labelFormXXShort"
+                    android:textColor="@color/black"
+                    />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:paddingLeft="@dimen/listItemLeft"
+                android:orientation="vertical">
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tvElementOrigenHora"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="21:15 20m - 22m"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/labelFormXXShort"
+                    android:textColor="@color/black"
+                    />
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tvElementDestiHora"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22:45 20m - 22m"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/labelFormXXShort"
+                    android:textColor="@color/black"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

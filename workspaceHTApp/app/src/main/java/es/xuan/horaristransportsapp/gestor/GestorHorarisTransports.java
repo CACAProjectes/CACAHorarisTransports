@@ -1,4 +1,7 @@
-package es.xuan.horaristransp;
+package es.xuan.horaristransportsapp.gestor;
+
+import android.os.StrictMode;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,11 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-
-import es.xuan.horaristransp.model.HorarisTransports;
-import es.xuan.horaristransp.model.Linia;
-import es.xuan.horaristransp.model.Parada;
-import es.xuan.horaristransp.utils.Utils;
+import es.xuan.horaristransportsapp.model.HorarisTransports;
+import es.xuan.horaristransportsapp.model.Linia;
+import es.xuan.horaristransportsapp.model.Parada;
+import es.xuan.horaristransportsapp.utils.Utils;
 
 public class GestorHorarisTransports implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -30,9 +32,9 @@ public class GestorHorarisTransports implements Serializable {
 	private static final String CTE_OBTENIR_HORARIS_PARADA = "https://rubibus.com/consultes.asp?proces=HorarioLinea&idLinia=#1&idSentido=#2&IdJornada=#3&NomParada=#4&idioma=";
 	private static final String CTE_OBTENIR_TEMPS_ESPERA = "https://rubibus.com/consultes.asp?proces=ConsultarProximos&idLinia=#1&idSentido=#2&IdJornada=#3&NomParada=#4&idioma=";
 
-	private static final long CTE_TEMPS_MAX_EXECUCIO = 1000;	// Temps en ms	
+	private static final long CTE_TEMPS_MAX_EXECUCIO = 2000;	// Temps en ms
 
-	private static HorarisTransports mHorarisTrans = null; 
+	private static HorarisTransports mHorarisTrans = null;
 	private static ArrayList<Linia> mArrLinies = null;
 	private static ArrayList<Parada> mArrParades = null;
 	private static ArrayList<String> mArrHores = null;
@@ -52,7 +54,7 @@ public class GestorHorarisTransports implements Serializable {
 		//	obtenirLinies
 		Thread thread = new Thread(){
 			public void run(){
-				System.out.println("Thread obtenirParadesLinia Running");
+				//System.out.println("Thread obtenirParadesLinia Running");
 				// obtenirLinies
 				String strUrl = CTE_OBTENIR_PARADES_LINIA.replaceFirst("#", "" + pLinia) + mHorarisTrans.getIdioma();
 				String contingut = getContingutURL(strUrl);
@@ -65,14 +67,14 @@ public class GestorHorarisTransports implements Serializable {
 			thread.join(CTE_TEMPS_MAX_EXECUCIO);
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
-				System.out.println("Thread obtenirParadesLinia NO finalizat");
+				//System.out.println("Thread obtenirParadesLinia NO finalizat");
 				// Treure informació constant NO de Web 
 				// TODO recollir dades del REPOSITORI GENERAL
 			}
 			// Consulta finalitzada
-			System.out.println("Thread obtenirParadesLinia finalizat");
+			//System.out.println("Thread obtenirParadesLinia finalizat");
 		} catch (InterruptedException e) {
-			System.out.println("Thread obtenirParadesLinia Interrumput");
+			//System.out.println("Thread obtenirParadesLinia Interrumput");
 			e.printStackTrace();
 		}
 		return mArrParades;
@@ -82,7 +84,8 @@ public class GestorHorarisTransports implements Serializable {
 		//	obtenirLinies
 		Thread thread = new Thread(){
 			public void run(){
-				System.out.println("Thread obtenirLinies Running");
+				//System.out.println("Thread obtenirLinies Running");
+				Log.d("obtenirLinies","Web");
 				// obtenirLinies
 				String contingut = getContingutURL(CTE_OBTENIR_LINIES_SENTITS + mHorarisTrans.getIdioma());
 				// TODO Treure informació de la Web				
@@ -94,14 +97,16 @@ public class GestorHorarisTransports implements Serializable {
 			thread.join(CTE_TEMPS_MAX_EXECUCIO);
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
-				System.out.println("Thread obtenirLinies NO finalizat");
+				//System.out.println("Thread obtenirLinies NO finalizat");
+				Log.d("obtenirLinies","Web - CONSTANT");
 				// TODO Treure informació constant NO de Web 
 				mArrLinies = parserObtenirLinies();
 			}
 			// Consulta finalitzada
-			System.out.println("Thread obtenirLinies finalizat");
+			//System.out.println("Thread obtenirLinies finalizat");
 		} catch (InterruptedException e) {
-			System.out.println("Thread obtenirLinies Interrumput");
+			//System.out.println("Thread obtenirLinies Interrumput");
+			Log.e("obtenirLinies","Web - InterruptedException");
 			e.printStackTrace();
 		}
 		return mArrLinies;
@@ -114,8 +119,8 @@ public class GestorHorarisTransports implements Serializable {
 		String strAux = "";
 		try {
 			yc = new URL(pStrUrl).openConnection();
-			//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			//StrictMode.setThreadPolicy(policy);
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
 			isr = new InputStreamReader(yc.getInputStream(), StandardCharsets.ISO_8859_1);
 		} catch (Exception ex) {	
 			// Hi ha PROXY
@@ -351,7 +356,7 @@ public class GestorHorarisTransports implements Serializable {
 		//	obtenirLinies
 		Thread thread = new Thread(){
 			public void run(){
-				System.out.println("Thread obtenirHorarisParada Running");
+				//System.out.println("Thread obtenirHorarisParada Running");
 				// obtenirLinies
 				/*
 				 * idLinia=#1&idSentido=#2&IdJornada=#3&NomParada=#4&idioma=
@@ -371,13 +376,13 @@ public class GestorHorarisTransports implements Serializable {
 			thread.join(CTE_TEMPS_MAX_EXECUCIO);
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
-				System.out.println("Thread obtenirHorarisParada NO finalizat");
+				//System.out.println("Thread obtenirHorarisParada NO finalizat");
 				// TODO Treure informació constant NO de Web
 			}
 			// Consulta finalitzada
-			System.out.println("Thread obtenirHorarisParada finalizat");
+			//System.out.println("Thread obtenirHorarisParada finalizat");
 		} catch (InterruptedException e) {
-			System.out.println("Thread obtenirHorarisParada Interrumput");
+			//System.out.println("Thread obtenirHorarisParada Interrumput");
 			e.printStackTrace();
 		}
 		return mArrHores;
@@ -408,6 +413,10 @@ public class GestorHorarisTransports implements Serializable {
 				break;
 			}
 		} while (ind1 > 0);
+		//
+		if (arrHores.size() == 1)
+			// Sense dades Web
+			arrHores.set(0, "00:00");
 		//	Ordenar hores
 		Collections.sort(arrHores);
 		return arrHores;
@@ -425,7 +434,7 @@ public class GestorHorarisTransports implements Serializable {
 		//	obtenirLinies
 		Thread thread = new Thread(){
 			public void run(){
-				System.out.println("Thread obtenirTempsEspera Running");
+				//System.out.println("Thread obtenirTempsEspera Running");
 				// obtenirLinies
 				String contingut = getContingutURL(CTE_OBTENIR_TEMPS_ESPERA.
 						replaceFirst("#1", "" + pIdLinia).
@@ -442,14 +451,14 @@ public class GestorHorarisTransports implements Serializable {
 			thread.join(CTE_TEMPS_MAX_EXECUCIO);
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
-				System.out.println("Thread obtenirTempsEspera NO finalizat");
+				//System.out.println("Thread obtenirTempsEspera NO finalizat");
 				// Treure informació constant NO de Web 
 				// TODO recollir dades del REPOSITORI GENERAL
 			}
 			// Consulta finalitzada
-			System.out.println("Thread obtenirTempsEspera finalizat");
+			//System.out.println("Thread obtenirTempsEspera finalizat");
 		} catch (InterruptedException e) {
-			System.out.println("Thread obtenirTempsEspera Interrumput");
+			//System.out.println("Thread obtenirTempsEspera Interrumput");
 			e.printStackTrace();
 		}
 		return mArrTempsEspera;
