@@ -22,10 +22,10 @@ import es.xuan.horaristransportsapp.utils.Utils;
 
 public class GestorHorarisTransports implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private final static String CTE_PROXY_IP = "10.126.132.10";
 	private final static String CTE_PROXY_PORT = "8080";
-	
+
 	private static final String CTE_IDIOMA = "es";
 	private static final String CTE_OBTENIR_LINIES_SENTITS = "https://rubibus.com/index.asp?seccion=calculoRecorrido&lang=";
 	private static final String CTE_OBTENIR_PARADES_LINIA = "https://rubibus.com/index.asp?seccion=planolinia&linia=#&lang=";
@@ -39,7 +39,7 @@ public class GestorHorarisTransports implements Serializable {
 	private static ArrayList<Parada> mArrParades = null;
 	private static ArrayList<String> mArrHores = null;
 	private static ArrayList<String> mArrTempsEspera = null;
-			
+
 	public static HorarisTransports getInstance() {
 		Calendar calAvui = Calendar.getInstance();
 		mHorarisTrans = new HorarisTransports();
@@ -49,7 +49,7 @@ public class GestorHorarisTransports implements Serializable {
 		mHorarisTrans.setLinies(obtenirLinies());
 		return mHorarisTrans;
 	}
-	
+
 	public static ArrayList<Parada> obtenirParadesLinia(int pLinia, int pSentit) {
 		//	obtenirLinies
 		Thread thread = new Thread(){
@@ -58,7 +58,7 @@ public class GestorHorarisTransports implements Serializable {
 				// obtenirLinies
 				String strUrl = CTE_OBTENIR_PARADES_LINIA.replaceFirst("#", "" + pLinia) + mHorarisTrans.getIdioma();
 				String contingut = getContingutURL(strUrl);
-				// Treure informaciÛ de la Web				
+				// Treure informacio de la Web
 				mArrParades = parserObtenirParadesLinia(contingut, pSentit);
 			}
 		};
@@ -68,7 +68,7 @@ public class GestorHorarisTransports implements Serializable {
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
 				//System.out.println("Thread obtenirParadesLinia NO finalizat");
-				// Treure informaciÛ constant NO de Web 
+				// Treure informaci√≥ constant NO de Web
 				// TODO recollir dades del REPOSITORI GENERAL
 			}
 			// Consulta finalitzada
@@ -88,7 +88,7 @@ public class GestorHorarisTransports implements Serializable {
 				Log.d("obtenirLinies","Web");
 				// obtenirLinies
 				String contingut = getContingutURL(CTE_OBTENIR_LINIES_SENTITS + mHorarisTrans.getIdioma());
-				// TODO Treure informaciÛ de la Web				
+				// TODO Treure informaci√≥ de la Web				
 				mArrLinies = parserObtenirLinies(contingut);
 			}
 		};
@@ -99,7 +99,7 @@ public class GestorHorarisTransports implements Serializable {
 			if(thread.isAlive()) {
 				//System.out.println("Thread obtenirLinies NO finalizat");
 				Log.d("obtenirLinies","Web - CONSTANT");
-				// TODO Treure informaciÛ constant NO de Web 
+				// TODO Treure informaci√≥ constant NO de Web 
 				mArrLinies = parserObtenirLinies();
 			}
 			// Consulta finalitzada
@@ -111,10 +111,10 @@ public class GestorHorarisTransports implements Serializable {
 		}
 		return mArrLinies;
 	}
-	
+
 	private static String getContingutURL(String pStrUrl) {
 		URLConnection yc = null;
-	    InputStreamReader isr = null;
+		InputStreamReader isr = null;
 		StringBuilder lineStr = new StringBuilder();
 		String strAux = "";
 		try {
@@ -122,12 +122,12 @@ public class GestorHorarisTransports implements Serializable {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
 			isr = new InputStreamReader(yc.getInputStream(), StandardCharsets.ISO_8859_1);
-		} catch (Exception ex) {	
+		} catch (Exception ex) {
 			// Hi ha PROXY
-		}	
+		}
 		if (isr == null) {
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CTE_PROXY_IP, Integer.parseInt(CTE_PROXY_PORT)));
-		    try {
+			try {
 				yc = new URL(pStrUrl).openConnection(proxy);
 				isr = new InputStreamReader(yc.getInputStream(), StandardCharsets.ISO_8859_1);
 			} catch (IOException e) {
@@ -138,11 +138,11 @@ public class GestorHorarisTransports implements Serializable {
 		try {
 			//
 			BufferedReader in = new BufferedReader(isr);
-		    while((strAux = in.readLine()) != null) {
-		    	lineStr.append(strAux);
-		    }
-		    in.close();
-		    isr.close();
+			while((strAux = in.readLine()) != null) {
+				lineStr.append(strAux);
+			}
+			in.close();
+			isr.close();
 		}
 		catch (Exception ex) {
 			System.err.println("Error -getContingutURL.1-: " + ex);
@@ -156,20 +156,20 @@ public class GestorHorarisTransports implements Serializable {
 		 */
 		/*
 		 	<option value="0"  selected >
-		 	<option value="1-2"  title="EL PINAR-CAN SERRAFOSS¿"> L1. Can Serrafoss‡-El Pinar</option>
-			<option value="1-1"  title="EL PINAR-CAN SERRAFOSS¿"> L1. El Pinar-Can Serrafoss‡</option>
-			<option value="2-4"  title="CAN VALLHONRAT-EL PINAR"> L2. El Pinar/Can RosÈs-Can Vallhonrat</option>
-			<option value="2-3"  title="CAN VALLHONRAT-EL PINAR"> L2. Can Vallhonrat-El Pinar/Can RosÈs</option>
-			<option value="3-14" title="ESTACI” RUBÕ+D-CASTELLNOU"> L3. EstaciÛ RubÕ+D-Castellnou</option>
-			<option value="3-13" title="ESTACI” RUBÕ+D-CASTELLNOU"> L3. Castellnou-EstaciÛ RubÕ+D</option>
-			<option value="4-6"  title="ESTACI” RUBÕ+D-CAN ROS…S"> L4. Can RosÈs-EstaciÛ RubÕ+D</option>
-			<option value="4-5"  title="ESTACI” RUBÕ+D-CAN ROS…S"> L4. EstaciÛ RubÕ+D-Can RosÈs</option>
-			<option value="5-8"  title="CAN ROS…S-ESTACI” RUBÕ+D"> L5. EstaciÛ RubÕ+D-Can RosÈs</option>
-			<option value="5-7"  title="CAN ROS…S-ESTACI” RUBÕ+D"> L5. Can RosÈs-EstaciÛ RubÕ+D</option>
-			<option value="6-12" title="RUBÕ SUD-POL. LA BASTIDA"> L6. Pol. La Bastida-Pol. RubÌ Sud</option>
-			<option value="6-9"  title="RUBÕ SUD-POL. LA BASTIDA"> L6. Pol. RubÌ Sud-Pol. La Bastida</option>
-			<option value="7-16" title="ESTACI” RUBÕ+D-SANT MU«"> L7. Sant MuÁ-EstaciÛ RubÕ+D</option>
-			<option value="7-15" title="ESTACI” RUBÕ+D-SANT MU«"> L7. EstaciÛ RubÕ+D-Sant MuÁ</option>
+		 	<option value="1-2"  title="EL PINAR-CAN SERRAFOSS√Ä"> L1. Can Serrafoss√†-El Pinar</option>
+			<option value="1-1"  title="EL PINAR-CAN SERRAFOSS√Ä"> L1. El Pinar-Can Serrafoss√†</option>
+			<option value="2-4"  title="CAN VALLHONRAT-EL PINAR"> L2. El Pinar/Can Ros√©s-Can Vallhonrat</option>
+			<option value="2-3"  title="CAN VALLHONRAT-EL PINAR"> L2. Can Vallhonrat-El Pinar/Can Ros√©s</option>
+			<option value="3-14" title="ESTACI√ì RUB√ç+D-CASTELLNOU"> L3. Estaci√≥ Rub√ç+D-Castellnou</option>
+			<option value="3-13" title="ESTACI√ì RUB√ç+D-CASTELLNOU"> L3. Castellnou-Estaci√≥ Rub√ç+D</option>
+			<option value="4-6"  title="ESTACI√ì RUB√ç+D-CAN ROS√âS"> L4. Can Ros√©s-Estaci√≥ Rub√ç+D</option>
+			<option value="4-5"  title="ESTACI√ì RUB√ç+D-CAN ROS√âS"> L4. Estaci√≥ Rub√ç+D-Can Ros√©s</option>
+			<option value="5-8"  title="CAN ROS√âS-ESTACI√ì RUB√ç+D"> L5. Estaci√≥ Rub√ç+D-Can Ros√©s</option>
+			<option value="5-7"  title="CAN ROS√âS-ESTACI√ì RUB√ç+D"> L5. Can Ros√©s-Estaci√≥ Rub√ç+D</option>
+			<option value="6-12" title="RUB√ç SUD-POL. LA BASTIDA"> L6. Pol. La Bastida-Pol. Rub√≠ Sud</option>
+			<option value="6-9"  title="RUB√ç SUD-POL. LA BASTIDA"> L6. Pol. Rub√≠ Sud-Pol. La Bastida</option>
+			<option value="7-16" title="ESTACI√ì RUB√ç+D-SANT MU√á"> L7. Sant Mu√ß-Estaci√≥ Rub√ç+D</option>
+			<option value="7-15" title="ESTACI√ì RUB√ç+D-SANT MU√á"> L7. Estaci√≥ Rub√ç+D-Sant Mu√ß</option>
 		 */
 		ArrayList<Linia> arrLinies = new ArrayList<Linia>();
 		//
@@ -185,17 +185,17 @@ public class GestorHorarisTransports implements Serializable {
 				if (linia == null)
 					break;
 				arrLinies.add(linia);
-			} catch (Exception ex) {	
+			} catch (Exception ex) {
 				break;
 			}
 		} while (ind1 > 0);
-		
+
 		return arrLinies;
 	}
-	
+
 	private static Linia tractarLinia(String pContingut) {
 		/*
-		 * <option value="1-2"  title="EL PINAR-CAN SERRAFOSS¿"> L1. Can Serrafoss‡-El Pinar</option>
+		 * <option value="1-2"  title="EL PINAR-CAN SERRAFOSS√Ä"> L1. Can Serrafoss√†-El Pinar</option>
 		 */
 		Linia linia = null;
 		try {
@@ -211,80 +211,80 @@ public class GestorHorarisTransports implements Serializable {
 				return null;
 			//
 			linia = new Linia(
-					Integer.parseInt(strLiniaSentit.split("-")[0]), 
-					Integer.parseInt(strLiniaSentit.split("-")[1]), 
+					Integer.parseInt(strLiniaSentit.split("-")[0]),
+					Integer.parseInt(strLiniaSentit.split("-")[1]),
 					strNomLiniaSentit.trim());
 		}
-		catch (Exception ex) {			
+		catch (Exception ex) {
 		}
 		return linia;
 	}
 
 	public static ArrayList<Linia> parserObtenirLinies() {
 		/*
-		 * ObtÈ les linies sense informaciÛ. Retorna valors fixes
+		 * Obt√© les linies sense informaci√≥. Retorna valors fixes
 		 */
 		ArrayList<Linia> arrLinies = new ArrayList<Linia>();
-		arrLinies.add(new Linia(1, 2, "Can Serrafoss‡-El Pinar"));
-		arrLinies.add(new Linia(1, 1, "El Pinar-Can Serrafoss‡"));
-		arrLinies.add(new Linia(2, 4, "El Pinar/Can RosÈs-Can Vallhonrat"));
-		arrLinies.add(new Linia(2, 3, "Can Vallhonrat-El Pinar/Can RosÈs"));
-		arrLinies.add(new Linia(3, 14, "EstaciÛ RubÕ+D-Castellnou"));
-		arrLinies.add(new Linia(3, 13, "Castellnou-EstaciÛ RubÕ+D"));
-		arrLinies.add(new Linia(4, 6, "Can RosÈs-EstaciÛ RubÕ+D"));
-		arrLinies.add(new Linia(4, 5, "EstaciÛ RubÕ+D-Can RosÈs"));
-		arrLinies.add(new Linia(5, 8, "EstaciÛ RubÕ+D-Can RosÈs"));
-		arrLinies.add(new Linia(5, 7, "Can RosÈs-EstaciÛ RubÕ+D"));
-		arrLinies.add(new Linia(6, 12, "Pol. La Bastida-Pol. RubÌ Sud"));
-		arrLinies.add(new Linia(6, 9, "Pol. RubÌ Sud-Pol. La Bastida"));
-		arrLinies.add(new Linia(7, 16, "Sant MuÁ-EstaciÛ RubÕ+D"));
-		arrLinies.add(new Linia(7, 15, "EstaciÛ RubÕ+D-Sant MuÁ"));	
+		arrLinies.add(new Linia(1, 2, "Can Serrafoss√†-El Pinar"));
+		arrLinies.add(new Linia(1, 1, "El Pinar-Can Serrafoss√†"));
+		arrLinies.add(new Linia(2, 4, "El Pinar/Can Ros√©s-Can Vallhonrat"));
+		arrLinies.add(new Linia(2, 3, "Can Vallhonrat-El Pinar/Can Ros√©s"));
+		arrLinies.add(new Linia(3, 14, "Estaci√≥ Rub√ç+D-Castellnou"));
+		arrLinies.add(new Linia(3, 13, "Castellnou-Estaci√≥ Rub√ç+D"));
+		arrLinies.add(new Linia(4, 6, "Can Ros√©s-Estaci√≥ Rub√ç+D"));
+		arrLinies.add(new Linia(4, 5, "Estaci√≥ Rub√ç+D-Can Ros√©s"));
+		arrLinies.add(new Linia(5, 8, "Estaci√≥ Rub√ç+D-Can Ros√©s"));
+		arrLinies.add(new Linia(5, 7, "Can Ros√©s-Estaci√≥ Rub√ç+D"));
+		arrLinies.add(new Linia(6, 12, "Pol. La Bastida-Pol. Rub√≠ Sud"));
+		arrLinies.add(new Linia(6, 9, "Pol. Rub√≠ Sud-Pol. La Bastida"));
+		arrLinies.add(new Linia(7, 16, "Sant Mu√ß-Estaci√≥ Rub√ç+D"));
+		arrLinies.add(new Linia(7, 15, "Estaci√≥ Rub√ç+D-Sant Mu√ß"));
 		return arrLinies;
 	}
-	
+
 
 	public static ArrayList<Parada> parserObtenirParadesLinia(String pContingut, int pSentit) {
 		/*
-		 	<area id="HP-136" shape="rect" coords="87,133,228,157" href="index.asp?seccion=horarioLinia&idParada=136&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Can RosÈs" title="Can RosÈs" class="muestraTitle"/>
+		 	<area id="HP-136" shape="rect" coords="87,133,228,157" href="index.asp?seccion=horarioLinia&idParada=136&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Can Ros√©s" title="Can Ros√©s" class="muestraTitle"/>
 			<area id="HP-137" shape="rect" coords="91,164,198,183" href="index.asp?seccion=horarioLinia&idParada=137&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Terranova" title="Terranova" class="muestraTitle"/>
 			<area id="HP-138" shape="rect" coords="95,193,180,214" href="index.asp?seccion=horarioLinia&idParada=138&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sevilla" title="Sevilla" class="muestraTitle"/>
 			<area id="HP-139" shape="rect" coords="96,227,211,244" href="index.asp?seccion=horarioLinia&idParada=139&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Primer de Maig" title="Primer de Maig" class="muestraTitle"/>
 			<area id="HP-140" shape="rect" coords="98,254,187,275" href="index.asp?seccion=horarioLinia&idParada=140&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="La Serreta" title="La Serreta" class="muestraTitle"/>
 			<area id="HP-141" shape="rect" coords="94,283,171,302" href="index.asp?seccion=horarioLinia&idParada=141&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sabadell" title="Sabadell" class="muestraTitle"/>
 			<area id="HP-142" shape="rect" coords="94,310,168,328" href="index.asp?seccion=horarioLinia&idParada=142&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Orso" title="Orso" class="muestraTitle"/>
-			<area id="HP-143" shape="rect" coords="89,338,191,354" href="index.asp?seccion=horarioLinia&idParada=143&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Santa Eul‡lia" title="Santa Eul‡lia" class="muestraTitle"/>
+			<area id="HP-143" shape="rect" coords="89,338,191,354" href="index.asp?seccion=horarioLinia&idParada=143&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Santa Eul√†lia" title="Santa Eul√†lia" class="muestraTitle"/>
 			<area id="HP-144" shape="rect" coords="98,367,191,387" href="index.asp?seccion=horarioLinia&idParada=144&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Zamenhoff" title="Zamenhoff" class="muestraTitle"/>
 			<area id="HP-145" shape="rect" coords="91,367,178,388" href="index.asp?seccion=horarioLinia&idParada=145&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sardana" title="Sardana" class="muestraTitle"/>
-			<area id="HP-146" shape="rect" coords="89,424,192,442" href="index.asp?seccion=horarioLinia&idParada=146&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Pau ClarÌs" title="Pau ClarÌs" class="muestraTitle"/>
+			<area id="HP-146" shape="rect" coords="89,424,192,442" href="index.asp?seccion=horarioLinia&idParada=146&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Pau Clar√≠s" title="Pau Clar√≠s" class="muestraTitle"/>
 			<area id="HP-147" shape="rect" coords="96,452,166,475" href="index.asp?seccion=horarioLinia&idParada=147&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Cadmo" title="Cadmo" class="muestraTitle"/>
 			<area id="HP-151" shape="rect" coords="93,515,183,537" href="index.asp?seccion=horarioLinia&idParada=151&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Sant Joan" title="Sant Joan" class="muestraTitle"/>
 			<area id="HP-152" shape="rect" coords="93,534,209,562" href="index.asp?seccion=horarioLinia&idParada=152&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Espoz i Mina" title="Espoz i Mina" class="muestraTitle"/>
-			<area id="HP-153" shape="rect" coords="90,566,225,592" href="index.asp?seccion=horarioLinia&idParada=153&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="EstaciÛ RubÕ+D" title="EstaciÛ RubÕ+D" class="muestraTitle"/>
+			<area id="HP-153" shape="rect" coords="90,566,225,592" href="index.asp?seccion=horarioLinia&idParada=153&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Estaci√≥ Rub√ç+D" title="Estaci√≥ Rub√ç+D" class="muestraTitle"/>
 			<area id="HP-851" shape="rect" coords="84,482,171,499" href="index.asp?seccion=horarioLinia&idParada=851&idSentido=7&idLinia=5&lang=es&idJornada=1" alt="Bullidor" title="Bullidor" class="muestraTitle"/>
 
-			<area id="HP-154" shape="rect" coords="73,134,210,156" href="index.asp?seccion=horarioLinia&idParada=154&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="EstaciÛ RubÕ+D" title="EstaciÛ RubÕ+D" class="muestraTitle"/>
+			<area id="HP-154" shape="rect" coords="73,134,210,156" href="index.asp?seccion=horarioLinia&idParada=154&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Estaci√≥ Rub√ç+D" title="Estaci√≥ Rub√ç+D" class="muestraTitle"/>
 			<area id="HP-155" shape="rect" coords="91,157,185,176" href="index.asp?seccion=horarioLinia&idParada=155&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Joan Puig" title="Joan Puig" class="muestraTitle"/>
 			<area id="HP-156" shape="rect" coords="90,180,158,194" href="index.asp?seccion=horarioLinia&idParada=156&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Servet" title="Servet" class="muestraTitle"/>
 			<area id="HP-157" shape="rect" coords="93,199,216,217" href="index.asp?seccion=horarioLinia&idParada=157&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Doctor Ferran" title="Doctor Ferran" class="muestraTitle"/>
-			<area id="HP-158" shape="rect" coords="91,217,217,233" href="index.asp?seccion=horarioLinia&idParada=158&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="PaÔsos Catalans" title="PaÔsos Catalans" class="muestraTitle"/>
+			<area id="HP-158" shape="rect" coords="91,217,217,233" href="index.asp?seccion=horarioLinia&idParada=158&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Pa√Øsos Catalans" title="Pa√Øsos Catalans" class="muestraTitle"/>
 			<area id="HP-160" shape="rect" coords="90,257,259,274" href="index.asp?seccion=horarioLinia&idParada=160&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Anton de Borja" title="Anton de Borja" class="muestraTitle"/>
 			<area id="HP-161" shape="rect" coords="89,278,223,293" href="index.asp?seccion=horarioLinia&idParada=161&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="25 de Setembre" title="25 de Setembre" class="muestraTitle"/>
 			<area id="HP-166" shape="rect" coords="91,395,235,410" href="index.asp?seccion=horarioLinia&idParada=166&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Plana de Can Bertran" title="Plana de Can Bertran" class="muestraTitle"/>
 			<area id="HP-167" shape="rect" coords="93,416,176,431" href="index.asp?seccion=horarioLinia&idParada=167&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Lourdes" title="Lourdes" class="muestraTitle"/>
 			<area id="HP-168" shape="rect" coords="94,435,179,450" href="index.asp?seccion=horarioLinia&idParada=168&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Ca nOriol" title="Ca nOriol" class="muestraTitle"/>
-			<area id="HP-169" shape="rect" coords="79,455,181,470" href="index.asp?seccion=horarioLinia&idParada=169&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="SegÚvia" title="SegÚvia" class="muestraTitle"/>
+			<area id="HP-169" shape="rect" coords="79,455,181,470" href="index.asp?seccion=horarioLinia&idParada=169&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Seg√≤via" title="Seg√≤via" class="muestraTitle"/>
 			<area id="HP-170" shape="rect" coords="78,474,191,491" href="index.asp?seccion=horarioLinia&idParada=170&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Mallorca" title="Mallorca" class="muestraTitle"/>
 			<area id="HP-172" shape="rect" coords="94,513,179,532" href="index.asp?seccion=horarioLinia&idParada=172&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="El Ferrol" title="El Ferrol" class="muestraTitle"/>
 			<area id="HP-171" shape="rect" coords="75,495,218,510" href="index.asp?seccion=horarioLinia&idParada=171&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Font del Ferro" title="Font del Ferro" class="muestraTitle"/>
 			<area id="HP-173" shape="rect" coords="94,533,171,551" href="index.asp?seccion=horarioLinia&idParada=173&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Els Nius" title="Els Nius" class="muestraTitle"/>
-			<area id="HP-174" shape="rect" coords="73,554,191,568" href="index.asp?seccion=horarioLinia&idParada=174&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="OlimpÌades" title="OlimpÌades" class="muestraTitle"/>
-			<area id="HP-175" shape="rect" coords="71,573,198,592" href="index.asp?seccion=horarioLinia&idParada=175&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Can RosÈs" title="Can RosÈs" class="muestraTitle"/>
+			<area id="HP-174" shape="rect" coords="73,554,191,568" href="index.asp?seccion=horarioLinia&idParada=174&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Olimp√≠ades" title="Olimp√≠ades" class="muestraTitle"/>
+			<area id="HP-175" shape="rect" coords="71,573,198,592" href="index.asp?seccion=horarioLinia&idParada=175&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Can Ros√©s" title="Can Ros√©s" class="muestraTitle"/>
 			<area id="HP-374" shape="rect" coords="91,296,189,315" href="index.asp?seccion=horarioLinia&idParada=374&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Sant Cugat" title="Sant Cugat" class="muestraTitle"/>
 			<area id="HP-375" shape="rect" coords="95,315,193,334" href="index.asp?seccion=horarioLinia&idParada=375&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Cervantes" title="Cervantes" class="muestraTitle"/>
 			<area id="HP-376" shape="rect" coords="95,337,170,354" href="index.asp?seccion=horarioLinia&idParada=376&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Mercat" title="Mercat" class="muestraTitle"/>
-			<area id="HP-377" shape="rect" coords="95,356,210,372" href="index.asp?seccion=horarioLinia&idParada=377&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="MagÌ Ramentol" title="MagÌ Ramentol" class="muestraTitle"/>
+			<area id="HP-377" shape="rect" coords="95,356,210,372" href="index.asp?seccion=horarioLinia&idParada=377&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Mag√≠ Ramentol" title="Mag√≠ Ramentol" class="muestraTitle"/>
 			<area id="HP-378" shape="rect" coords="94,377,192,393" href="index.asp?seccion=horarioLinia&idParada=378&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Biblioteca" title="Biblioteca" class="muestraTitle"/>
-			<area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni SedÛ" title="Antoni SedÛ" class="muestraTitle"/>
+			<area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni Sed√≥" title="Antoni Sed√≥" class="muestraTitle"/>
 		 */
 		ArrayList<Parada> arrParades = new ArrayList<Parada>();
 		//
@@ -292,11 +292,11 @@ public class GestorHorarisTransports implements Serializable {
 		int ind0 = 0;
 		int ind1 = 0;
 		// mapaLiniaIZQ
-		ind0 = pContingut.indexOf("<map name=\"mapaLiniaIZQ\">");			
+		ind0 = pContingut.indexOf("<map name=\"mapaLiniaIZQ\">");
 		do {
 			try {
-				ind0 = pContingut.indexOf("<area", ind1) + "<area".length();			// <area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni SedÛ" title="Antoni SedÛ" class="muestraTitle"/>
-				ind1 = pContingut.indexOf("\"/>", ind0);	
+				ind0 = pContingut.indexOf("<area", ind1) + "<area".length();			// <area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni Sed√≥" title="Antoni Sed√≥" class="muestraTitle"/>
+				ind1 = pContingut.indexOf("\"/>", ind0);
 				if (ind0 < 0 || ind1 < 0)
 					break;
 				//
@@ -307,7 +307,7 @@ public class GestorHorarisTransports implements Serializable {
 				if (ind0 > ind00 || ind1 > ind00)
 					break;
 			}
-			catch (Exception ex) {	
+			catch (Exception ex) {
 				break;
 			}
 		} while (ind1 > 0);
@@ -317,37 +317,37 @@ public class GestorHorarisTransports implements Serializable {
 
 	private static Parada tractarParada(String pContingut, int pSentit) {
 		/*
-		 * <area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni SedÛ" title="Antoni SedÛ" class="muestraTitle"/>
+		 * <area id="HP-775" shape="rect" coords="97,233,195,252" href="index.asp?seccion=horarioLinia&idParada=775&idSentido=8&idLinia=5&lang=es&idJornada=1" alt="Antoni Sed√≥" title="Antoni Sed√≥" class="muestraTitle"/>
 		 */
 		Parada parada = null;
 		try {
 			// coords
 			int ind00 = pContingut.indexOf("coords=\"") + "coords=\"".length();			// coords="97,233,195,252"
-			int ind01 = pContingut.indexOf("\"", ind00);			
+			int ind01 = pContingut.indexOf("\"", ind00);
 			String varCoord = pContingut.substring(ind00, ind01);
 			String[] varCoordSplit = varCoord.split(",");
 			// idParada
 			int ind40 = pContingut.indexOf("idParada=") + "idParada=".length();			// idParada=775
-			int ind41 = pContingut.indexOf("&", ind40);			
+			int ind41 = pContingut.indexOf("&", ind40);
 			String varIdParada = pContingut.substring(ind40, ind41);
 			// idSentido		
 			int ind10 = pContingut.indexOf("idSentido=", ind01) + "idSentido=".length();	// idSentido=8
-			int ind11 = pContingut.indexOf("&", ind10);	
+			int ind11 = pContingut.indexOf("&", ind10);
 			String varSentit = pContingut.substring(ind10, ind11);
 			if (Integer.parseInt(varSentit) != pSentit)
 				return null;
 			// idLinia
 			int ind20 = pContingut.indexOf("idLinia=", ind11) + "idLinia=".length();	// idSentido=8
-			int ind21 = pContingut.indexOf("&", ind20);	
+			int ind21 = pContingut.indexOf("&", ind20);
 			//String varLinia = pContingut.substring(ind20, ind21);
 			// title
 			int ind30 = pContingut.indexOf("title=\"", ind21) + "title=\"".length();	// idSentido=8
-			int ind31 = pContingut.indexOf("\"", ind30);	
+			int ind31 = pContingut.indexOf("\"", ind30);
 			String varNomParada = pContingut.substring(ind30, ind31);
 			//
 			parada = new Parada(Integer.parseInt(varIdParada), Integer.parseInt(varCoordSplit[1]), varNomParada);
 		}
-		catch(Exception ex) {			
+		catch(Exception ex) {
 		}
 		//
 		return parada;
@@ -365,9 +365,9 @@ public class GestorHorarisTransports implements Serializable {
 						replaceFirst("#1", "" + pIdLinia).
 						replaceFirst("#2", "" + pIdSentido).
 						replaceFirst("#3", "" + pIdJornada).
-						replaceFirst("#4", "" + pIdParada) + 						
+						replaceFirst("#4", "" + pIdParada) +
 						mHorarisTrans.getIdioma());
-				// TODO Treure informaciÛ de la Web				
+				// TODO Treure informaci√≥ de la Web				
 				mArrHores = parserObtenirHoresParada(contingut);
 			}
 		};
@@ -377,7 +377,7 @@ public class GestorHorarisTransports implements Serializable {
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
 				//System.out.println("Thread obtenirHorarisParada NO finalizat");
-				// TODO Treure informaciÛ constant NO de Web
+				// TODO Treure informaci√≥ constant NO de Web
 			}
 			// Consulta finalitzada
 			//System.out.println("Thread obtenirHorarisParada finalizat");
@@ -409,7 +409,7 @@ public class GestorHorarisTransports implements Serializable {
 				if (hora == null)
 					break;
 				arrHores.add(hora);
-			} catch (Exception ex) {	
+			} catch (Exception ex) {
 				break;
 			}
 		} while (ind1 > 0);
@@ -425,7 +425,7 @@ public class GestorHorarisTransports implements Serializable {
 	private static String tractarHora(String pHora) {
 		try {
 			return Utils.omplirHora(pHora);
-		} catch (Exception ex) {			
+		} catch (Exception ex) {
 		}
 		return null;
 	}
@@ -440,9 +440,9 @@ public class GestorHorarisTransports implements Serializable {
 						replaceFirst("#1", "" + pIdLinia).
 						replaceFirst("#2", "" + pIdSentido).
 						replaceFirst("#3", "" + pIdJornada).
-						replaceFirst("#4", "" + pIdParada) + 						
+						replaceFirst("#4", "" + pIdParada) +
 						mHorarisTrans.getIdioma());
-				// TODO Treure informaciÛ de la Web				
+				// TODO Treure informaci√≥ de la Web				
 				mArrTempsEspera = parserObtenirTempsEspera(contingut);
 			}
 		};
@@ -452,7 +452,7 @@ public class GestorHorarisTransports implements Serializable {
 			//	Si no acaba a temps retorna valors fixes de Linies
 			if(thread.isAlive()) {
 				//System.out.println("Thread obtenirTempsEspera NO finalizat");
-				// Treure informaciÛ constant NO de Web 
+				// Treure informaci√≥ constant NO de Web 
 				// TODO recollir dades del REPOSITORI GENERAL
 			}
 			// Consulta finalitzada
@@ -471,7 +471,7 @@ public class GestorHorarisTransports implements Serializable {
 				<td class="quantTrigaraCenter">
 					<img src="DOCUMENTS/Menu/Linies/l5no.png" width="15px">
 				</td>
-				<td class="normal negro" title="Can RosÈs">Can RosÈs</td>
+				<td class="normal negro" title="Can Ros√©s">Can Ros√©s</td>
 				<td class="normal negro">16&nbsp;min.</td>
 				<td class="normal negro"></td>
 			</tr>
@@ -480,7 +480,7 @@ public class GestorHorarisTransports implements Serializable {
 				<td class="quantTrigaraCenter">
 					<img src="DOCUMENTS/Menu/Linies/l5no.png" width="15px">
 				</td>
-				<td class="normal negro" title="Can RosÈs">Can RosÈs</td>
+				<td class="normal negro" title="Can Ros√©s">Can Ros√©s</td>
 				<td class="normal negro">40&nbsp;min.</td>
 				<td class="normal negro"></td>
 			</tr>
@@ -503,7 +503,7 @@ public class GestorHorarisTransports implements Serializable {
 					break;
 				arrTempsEspera.add(tempsEspera);
 				ind0 = ind1;
-			} catch (Exception ex) {	
+			} catch (Exception ex) {
 				break;
 			}
 		} while (ind1 > 0);
@@ -516,7 +516,7 @@ public class GestorHorarisTransports implements Serializable {
 		 * 		<td class="quantTrigaraCenter">
 					<img src="DOCUMENTS/Menu/Linies/l5no.png" width="15px">
 				</td>
-				<td class="normal negro" title="Can RosÈs">Can RosÈs</td>
+				<td class="normal negro" title="Can Ros√©s">Can Ros√©s</td>
 				<td class="normal negro">16&nbsp;min.</td>
 		 */
 		String tempsEspera = "";
@@ -527,9 +527,9 @@ public class GestorHorarisTransports implements Serializable {
 			ind2 = pText.indexOf("<td class=\"normal negro\">", ind1) + "<td class=\"normal negro\">".length();
 			if (ind1 > 0 && ind2 > 0)
 				tempsEspera = pText.substring(ind2);
-		} catch (Exception ex) {			
+		} catch (Exception ex) {
 		}
 		return tempsEspera;
-	}	
+	}
 }
 

@@ -182,13 +182,13 @@
         <LinearLayout
             android:id="@+id/llLlistaLiniesParades"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:background="@color/nivell4"
             android:orientation="horizontal"
             android:gravity="top">
             <LinearLayout
                 android:id="@+id/llLlistaLinies"
-                android:layout_width="250dp"
+                android:layout_width="258dp"
                 android:layout_height="match_parent"
                 android:background="@color/nivell4"
                 android:orientation="vertical"
@@ -205,7 +205,7 @@
                     android:textSize="@dimen/labelFormXShort"
                     android:textStyle="bold" />
                 <ListView
-                    android:id="@+id/listView"
+                    android:id="@+id/listViewLinies"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -228,6 +228,11 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/labelFormXShort"
                     android:textStyle="bold" />
+                <ListView
+                    android:id="@+id/listViewLiniaHores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

@@ -155,8 +155,40 @@ public class Repositori implements Serializable {
         }
         return linies;
     }
-
-    public static ArrayList<String> parserString2Hores(ArrayList<String> horesStr) {
-        return null;
+    /*
+    public static ArrayList<String> parserString2Hores(ArrayList<String> pHores) {
+        /*
+            Obtenir hores (LINIA-SENTIT-JORNADA-PARADA)
+            "4-5-1-368-06:33"
+            "4-5-1-368-06:55"
+            "4-5-1-368-07:17"
+            "4-5-1-368-07:41"
+            "4-5-1-368-08:05"
+            "4-5-1-368-08:29"
+            "4-5-1-368-08:53"
+            "4-5-1-368-09:17"
+            "4-5-1-368-09:41"
+            "4-5-1-368-10:05"
+            "4-5-1-368-10:29"
+            "4-5-1-368-10:53"
+            "4-5-1-368-11:17"
+            "4-5-1-368-11:41"
+            "4-5-1-368-12:05"
+            "4-5-1-368-12:29"
+            "4-5-1-368-12:53"
+            "4-5-1-368-13:17"
+            "4-5-1-368-13:41"
+            "4-5-1-368-14:05"
+            "4-5-1-368-21:09"
+            "4-5-1-368-21:31"
+            "4-5-1-368-21:50"
+            "4-5-1-368-22:09"
+        *
+        ArrayList<String> hores = new ArrayList<>();
+        for (String hora : pHores) {
+            hores.add(hora);
+        }
+        return hores;
     }
+     */
 }

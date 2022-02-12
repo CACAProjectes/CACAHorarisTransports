@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -22,12 +24,14 @@ import java.util.Calendar;
 import java.util.Hashtable;
 import es.xuan.horaristransportsapp.gestor.FavoritsViewAdapter;
 import es.xuan.horaristransportsapp.gestor.GestorHorarisTransports;
+import es.xuan.horaristransportsapp.gestor.LiniesViewAdapter;
 import es.xuan.horaristransportsapp.gestor.Repositori;
 import es.xuan.horaristransportsapp.gestor.Temporitzador;
 import es.xuan.horaristransportsapp.model.Favorit;
 import es.xuan.horaristransportsapp.model.HorarisTransports;
 import es.xuan.horaristransportsapp.model.Linia;
 import es.xuan.horaristransportsapp.model.Parada;
+import es.xuan.horaristransportsapp.model.TempsEspera;
 import es.xuan.horaristransportsapp.utils.Serializar;
 import es.xuan.horaristransportsapp.utils.Utils;
 
@@ -39,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTvDataAvui = null;
     private ListView mLvLinies = null;
     private ListView mLvFavorits = null;
+    private ListView mLvLiniaParadesHores = null;
     private TextView mLvLiniesElement = null;
+    private TextView mTvLiniaAnt = null;
     //  Dades
     private String CTE_KEY_REPOSITORI_SP = "REPOSITORI_SP";
     private String CTE_KEY_HORARIS_TRANSPORTS_SP = "HORARIS_TRANSPORTS_SP";
@@ -132,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
     private void inicialitzarElementsPantalla() {
         mTvDataAvui = (TextView)findViewById(R.id.tvDataAvui);
         //
-        mLvLinies = (ListView)findViewById(R.id.listView);
+        mLvLinies = (ListView)findViewById(R.id.listViewLinies);
         mLvFavorits = (ListView)findViewById(R.id.listViewFav);
+        mLvLiniaParadesHores = (ListView)findViewById(R.id.listViewLiniaHores);
     }
 
     public void actualitzarHoraris(Message pMessage) {
@@ -149,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void actualitzarPantallaFixes() {
         //  Mostrar en pantalla les Linies
+        /*
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 //android.R.layout.simple_list_item_1, android.R.id.text1, parserLinies2Strings(mHorarisTrans.getLinies()));
                 R.layout.llistalinieselement, R.id.tvLlistaLiniaElement, parserLinies2Strings(mHorarisTrans.getLinies()));
@@ -159,6 +167,40 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("actualitzarDadesFixes", "Linia: " + adapter.getItem(position));
             }
         });
+        */
+        //  Mostrar en pantalla els horaris de favorits
+        LiniesViewAdapter liniesArrayAdapter = new LiniesViewAdapter(this, mHorarisTrans.getLinies());
+        // set the numbersViewAdapter for ListView
+        mLvLinies.setAdapter(liniesArrayAdapter);
+        mLvLinies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d("actualitzarDadesFixes", "Linia: " + liniesArrayAdapter.getItem(position));
+                // Recuperar el valor anterior
+                if (mTvLiniaAnt != null) {
+                    mTvLiniaAnt.setText(Utils.parserLinia2String(mHorarisTrans.getLinies().get(position)));
+                    mTvLiniaAnt.setTypeface(Typeface.DEFAULT);
+                }
+                // Actualitzar el nou item
+                TextView tv = (TextView)view;
+                tv.setText("> " + tv.getText());
+                tv.setTypeface(Typeface.DEFAULT_BOLD);
+                // Guardar el nou item
+                mTvLiniaAnt = tv;
+                //
+                actualitzarPantallaLinies(liniesArrayAdapter.getItem(position).getIdLinia(),
+                        liniesArrayAdapter.getItem(position).getIdSentit());
+            }
+        });
+    }
+
+    private void actualitzarPantallaLinies(int idLinia, int idSentit) {
+
+        //  Mostrar en pantalla les Linies
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1,
+                obtenirLiniaParades(idLinia, idSentit));
+        mLvLiniaParadesHores.setAdapter(adapter);
     }
 
     private void actualitzarDadesTemporals() {
@@ -178,16 +220,6 @@ public class MainActivity extends AppCompatActivity {
          */
         mHorarisTrans.setLinies(obtenirLiniesGeneral());
     }
-
-    private ArrayList<String> parserLinies2Strings(ArrayList<Linia> pLinies) {
-        ArrayList<String> liniesStr = new ArrayList<>();
-        for (Linia linia : pLinies) {
-            liniesStr.add(Repositori.CTE_REPOSITORI_LINIA + linia.getIdLinia() +
-                    " " + Repositori.CTE_SEPARADOR_TEXT_KEY + " " + linia.getNomLinia());
-        }
-        return liniesStr;
-    }
-
 
     private ArrayList<Linia> obtenirLiniesGeneral() {
         //
@@ -212,16 +244,33 @@ public class MainActivity extends AppCompatActivity {
         return liniesRes;
     }
 
+    private void actualitzarPantallaHores(int idLinia,
+                                          int idSentit,
+                                          int idJornada,
+                                          int idParada) {
+        //  Mostrar en pantalla les Linies
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1,
+                obtenirLiniaHores(idLinia,
+                    idSentit,
+                    idJornada,
+                    idParada));
+        mLvLiniaParadesHores.setAdapter(adapter);
+    }
     private void actualitzarPantalla() {
         // Data i hora actual
         String str = Utils.formatDataComplerta(mHorarisTrans.getAvui(), mHorarisTrans.getIdioma());
         mTvDataAvui.setText(str);
-        //  Mostrar en pantalla els horaris de favorits
-        FavoritsViewAdapter favoritsArrayAdapter = new FavoritsViewAdapter(this, mHorarisTrans.getFavorits());
-        // create the instance of the ListView to set the numbersViewAdapter
-        ListView favoritsListView = findViewById(R.id.listViewFav);
-        // set the numbersViewAdapter for ListView
-        favoritsListView.setAdapter(favoritsArrayAdapter);
+        if (mHorarisTrans != null &&
+                mHorarisTrans.getFavorits() != null &&
+                mHorarisTrans.getFavorits().size() > 0) {
+            //  Mostrar en pantalla els horaris de favorits
+            FavoritsViewAdapter favoritsArrayAdapter = new FavoritsViewAdapter(this, mHorarisTrans.getFavorits());
+            // create the instance of the ListView to set the numbersViewAdapter
+            ListView favoritsListView = findViewById(R.id.listViewFav);
+            // set the numbersViewAdapter for ListView
+            favoritsListView.setAdapter(favoritsArrayAdapter);
+        }
     }
 
     private void inicialitzarTimer() {
@@ -292,14 +341,10 @@ public class MainActivity extends AppCompatActivity {
         Linia linia = new Linia(5, 8, "Estació RubÍ+D-Can Rosés");
         favorit.setLinia(linia);
         Parada paradaOrigen = new Parada(158, 1, "Països Catalans");
-        paradaOrigen.setHora("21:34");
-        paradaOrigen.setTempsEspera1(3);
-        paradaOrigen.setTempsEspera2(24);
+        paradaOrigen.setTempsEspera(new TempsEspera("00:00",0,0,0));
         favorit.setParadaOrigen(paradaOrigen);
         Parada paradaDesti = new Parada(175, 2, "Can Rosés");
-        paradaDesti.setHora("21:34");
-        paradaDesti.setTempsEspera1(3);
-        paradaDesti.setTempsEspera2(24);
+        paradaDesti.setTempsEspera(new TempsEspera("00:00",0,0,0));
         favorit.setParadaDesti(paradaDesti);
         //
         arrFavorits.add(favorit);
@@ -308,14 +353,10 @@ public class MainActivity extends AppCompatActivity {
         linia = new Linia(4, 6, "Can Rosés-Estació RubÍ+D");
         favorit.setLinia(linia);
         paradaOrigen = new Parada(116, 1, "Can Rosés");
-        paradaOrigen.setHora("21:34");
-        paradaOrigen.setTempsEspera1(3);
-        paradaOrigen.setTempsEspera2(24);
+        paradaOrigen.setTempsEspera(new TempsEspera("00:00",0,0,0));
         favorit.setParadaOrigen(paradaOrigen);
         paradaDesti = new Parada(131, 2, "Països Catalans");
-        paradaDesti.setHora("21:34");
-        paradaDesti.setTempsEspera1(3);
-        paradaDesti.setTempsEspera2(24);
+        paradaDesti.setTempsEspera(new TempsEspera("00:00",0,0,0));
         favorit.setParadaDesti(paradaDesti);
         //
         arrFavorits.add(favorit);
@@ -324,25 +365,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calcularTempsFavorits() {
-        /*
-            TODO: recalcular els temps d'espera
-         */
         String horaAvui = Utils.formatDataHora(mHorarisTrans.getAvui());
-        for (Favorit favorit : mHorarisTrans.getFavorits()) {
-            // ORIGEN
-            ArrayList<String> hores = obtenirTempsFavorits(favorit, favorit.getParadaOrigen().getIdParada());
-            //
-            Parada paradaOrigen = favorit.getParadaOrigen();
-            paradaOrigen.setHora(Utils.obtenirHoraPropera(hores, horaAvui, null));
-            paradaOrigen.setTempsEspera1(3);
-            paradaOrigen.setTempsEspera2(24);
-            // DESTÍ
-            hores = obtenirTempsFavorits(favorit, favorit.getParadaDesti().getIdParada());
-            //
-            Parada paradaDesti = favorit.getParadaDesti();
-            paradaDesti.setHora(Utils.obtenirHoraPropera(hores, horaAvui, paradaOrigen.getHora()));
-            paradaDesti.setTempsEspera1(3);
-            paradaDesti.setTempsEspera2(24);
+        if (mHorarisTrans != null &&
+                mHorarisTrans.getFavorits() != null &&
+                mHorarisTrans.getFavorits().size() > 0) {
+            for (Favorit favorit : mHorarisTrans.getFavorits()) {
+                // ORIGEN
+                ArrayList<String> hores = obtenirTempsFavorits(favorit, favorit.getParadaOrigen().getIdParada());
+                //
+                Parada paradaOrigen = favorit.getParadaOrigen();
+                paradaOrigen.setTempsEspera(Utils.obtenirHoraPropera(hores, horaAvui, null));
+                // DESTÍ
+                hores = obtenirTempsFavorits(favorit, favorit.getParadaDesti().getIdParada());
+                //
+                Parada paradaDesti = favorit.getParadaDesti();
+                paradaDesti.setTempsEspera(Utils.obtenirHoraPropera(hores, horaAvui, paradaOrigen.getTempsEspera().getHora()));
+            }
         }
     }
 
@@ -370,12 +408,77 @@ public class MainActivity extends AppCompatActivity {
                     mHorarisTrans.getJornada(),
                     idParada);
             // Si n'hi ha dades es guarda al Repositori
-            if (horesRes != null && horesRes.size() > 0) {
+            if (horesRes != null && horesRes.size() > 1) {  // Al menys hi ha una hora 00:00
                 Log.d("obtenirTempsFavorits","Guardar Web TO Repositori");
                 Repositori.putDades(strKey, horesRes);
                 guardarRepositori();
             }
         }
         return horesRes;
+    }
+
+    private ArrayList<String> obtenirLiniaHores(int idLinia,
+                                                int idSentit,
+                                                int idJornada,
+                                                int idParada) {
+        //
+        ArrayList<String> horesRes = null;
+        // obtenir linies del Repositori
+        /*
+            Obtenir hores (LINIA-SENTIT-JORNADA-PARADA)
+            "4-5-1-368-06:33"
+         */
+        String strKey = "" + idLinia + CTE_SEPARADOR +
+                idSentit + CTE_SEPARADOR +
+                idJornada + CTE_SEPARADOR +
+                idParada;
+        horesRes = Repositori.getDades().get(strKey);
+        if (horesRes != null && horesRes.size() > 0) {
+            Log.d("obtenirLiniaHores","Repositori");
+        }
+        else {
+            // obtenir linies de la Web
+            Log.d("obtenirLiniaHores","Web");
+            horesRes = GestorHorarisTransports.obtenirHoresParada(idLinia, idSentit, idJornada, idParada);
+            // Si n'hi ha dades es guarda al Repositori
+            if (horesRes != null && horesRes.size() > 0) {
+                Log.d("obtenirLiniaHores","Guardar Web TO Repositori");
+                Repositori.putDades(strKey, horesRes);
+                guardarRepositori();
+            }
+        }
+        return horesRes;
+    }
+    private ArrayList<String> obtenirLiniaParades(int idLinia,
+                                                int idSentit) {
+        //
+        ArrayList<String> parades = null;
+        // obtenir linies del Repositori
+        /*
+            Obtenir hores (LINIA-SENTIT)
+            "4-5-Parada1"
+         */
+        String strKey = "" + idLinia + CTE_SEPARADOR +
+                idSentit;
+        parades = Repositori.getDades().get(strKey);
+        if (parades != null && parades.size() > 0) {
+            Log.d("obtenirLiniaParades","Repositori");
+        }
+        else {
+            // obtenir linies de la Web
+            Log.d("obtenirLiniaHores","Web");
+            ArrayList<Parada> paradesPar = GestorHorarisTransports.obtenirParadesLinia(idLinia, idSentit);
+            // Si n'hi ha dades es guarda al Repositori
+            if (paradesPar != null && paradesPar.size() > 0) {
+                Log.d("obtenirLiniaHores","Guardar Web TO Repositori");
+                parades = new ArrayList<String>();
+                for (Parada parada : paradesPar) {
+                    parades.add(parada.getNomParada());
+                }
+                Repositori.putDades(strKey, parades);
+                guardarRepositori();
+            }
+        }
+        return parades;
     }
 }

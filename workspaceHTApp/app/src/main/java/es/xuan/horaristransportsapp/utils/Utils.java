@@ -13,6 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
+import es.xuan.horaristransportsapp.gestor.Repositori;
+import es.xuan.horaristransportsapp.model.Linia;
+import es.xuan.horaristransportsapp.model.TempsEspera;
+
 /**
  * @author jcamposp
  *
@@ -48,25 +53,25 @@ public class Utils implements Serializable {
 		/*
 		 * 3>DISSABTES<7>FESTIUS AGOST<6>DISSABTES AGOST<5>FEINERS AGOST<4>FESTIUS<1>FEINERS LECTIUS<
 		 */
-		if (pCal.get(Calendar.MONTH) == 7) {				
+		if (pCal.get(Calendar.MONTH) == Calendar.AUGUST) {
 			// AGOST
-			if (pCal.get(Calendar.DAY_OF_WEEK) > 0 &&
-					pCal.get(Calendar.DAY_OF_WEEK) < 6)		// 5>FEINERS AGOST
-					return 5;			// 5>FEINERS AGOST
-			else if (pCal.get(Calendar.DAY_OF_WEEK) == 6)	// 6>DISSABTES AGOST
-					return 6;			// 6>DISSABTES AGOST
-			else if (esFestiu(pCal))						// 7>FESTIUS AGOST
-					return 7;			// 7>FESTIUS AGOST
+			if (pCal.get(Calendar.DAY_OF_WEEK) >= Calendar.MONDAY &&
+					pCal.get(Calendar.DAY_OF_WEEK) <= Calendar.FRIDAY)		// 5>FEINERS AGOST
+					return 5;												// 5>FEINERS AGOST
+			else if (pCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)	// 6>DISSABTES AGOST
+					return 6;												// 6>DISSABTES AGOST
+			else if (esFestiu(pCal))										// 7>FESTIUS AGOST
+					return 7;												// 7>FESTIUS AGOST
 		}
-		else if (esFestiu(pCal))							// 4>FESTIUS
-			return 4;					// 4>FESTIUS
-		else if (pCal.get(Calendar.DAY_OF_WEEK) == 6)		// 3>DISSABTES
-			return 3;			// 3>DISSABTES
-		else if (pCal.get(Calendar.DAY_OF_WEEK) > 0 &&
-			pCal.get(Calendar.DAY_OF_WEEK) < 6)				// 1>FEINERS LECTIUS (NO AGOST)
-			return 1;		// 1>FEINERS LECTIUS
+		else if (esFestiu(pCal))											// 4>FESTIUS
+			return 4;														// 4>FESTIUS
+		else if (pCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)		// 3>DISSABTES - Calendar = 7
+			return 3;														// 3>DISSABTES
+		else if (pCal.get(Calendar.DAY_OF_WEEK) >= Calendar.MONDAY &&
+			pCal.get(Calendar.DAY_OF_WEEK) <= Calendar.FRIDAY)				// 1>FEINERS LECTIUS (NO AGOST)
+			return 1;														// 1>FEINERS LECTIUS
 		//
-		return 1;	// 1>FEINERS LECTIUS (por defecto)
+		return 1;															// 1>FEINERS LECTIUS (por defecto)
 	}
 	private static boolean esFestiu(Calendar pCal) {
 		// TODO Afegir Calendari Anual amb els festius de Rubí
@@ -89,6 +94,15 @@ public class Utils implements Serializable {
 		}
 		return pHora;
 	}
+	public static String omplirMinuts(int pNum) {
+		if (pNum < 10) {
+			return "0" + pNum;
+		}
+		else if (pNum > 99) {
+			return ">>";
+		}
+		return "" + pNum;
+	}
 	@SuppressWarnings("deprecation")
 	public static void vibrar(Vibrator pVibrator, long pTempsVib) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -104,18 +118,58 @@ public class Utils implements Serializable {
 		return capitalize(simpleDateFormat.format(pCalendar.getTime()));
     }
 
-	public static String obtenirHoraPropera(ArrayList<String> pHores, String pHora, String pHoraInici) {
+	public static TempsEspera obtenirHoraPropera(ArrayList<String> pHores, String pHora, String pHoraInici) {
+		TempsEspera tempsEspera = new TempsEspera("00:00", 0, 0, 0);
+		int iOrdre = 0;
 		for(String strHora : pHores) {
 			if (pHoraInici != null) {
+				// Destí
 				if (strHora.compareToIgnoreCase(pHora) >= 0 &&
-						strHora.compareToIgnoreCase(pHoraInici) > 0)
-					return strHora;
+					strHora.compareToIgnoreCase(pHoraInici) > 0) {
+					tempsEspera.setHora(strHora);
+					tempsEspera.setTempsEsperaAnt(0);
+					tempsEspera.setTempsEspera1(0);
+					tempsEspera.setTempsEspera2(0);
+					break;
+				}
 			}
 			else {
-				if (strHora.compareToIgnoreCase(pHora) >= 0)
-					return strHora;
+				// Origen
+				if (strHora.compareToIgnoreCase(pHora) >= 0) {
+					tempsEspera.setHora(strHora);
+					tempsEspera.setTempsEsperaAnt(calcularDifTemps(pHores, iOrdre, pHora, -1));
+					tempsEspera.setTempsEspera1(calcularDifTemps(pHores, iOrdre, pHora, 0));
+					tempsEspera.setTempsEspera2(calcularDifTemps(pHores, iOrdre, pHora, 1));
+					break;
+				}
 			}
+			iOrdre++;
 		}
-		return "00:00";
+		return tempsEspera;
+	}
+
+	private static int calcularDifTemps(ArrayList<String> pHores, int pActual, String pHoraActual, int pDiferencia) {
+		/*
+			pDiferencia -> -1	Hora anterior
+			pDiferencia -> 0	Hora siguiente
+			pDiferencia -> 1	Hora siguiente-siguiente
+		 */
+		if (pActual + pDiferencia < 0)
+			return 0;
+		String strHoraDif = pHores.get(pActual + pDiferencia);
+		return calcularDifHores(pHoraActual, strHoraDif);
+	}
+
+	private static int calcularDifHores(String pHora, String pHoraDif) {
+		String[] iHora = pHora.split(":");
+		String[] iHoraDif = pHoraDif.split(":");
+		int iRes = (Integer.parseInt(iHoraDif[0]) * 60 + Integer.parseInt(iHoraDif[1])) -
+				(Integer.parseInt(iHora[0]) * 60 + Integer.parseInt(iHora[1]));
+		return (iRes < -9 ? 0 : iRes);
+	}
+
+	public static String parserLinia2String(Linia pLinia) {
+		return Repositori.CTE_REPOSITORI_LINIA + pLinia.getIdLinia() +
+				" " + Repositori.CTE_SEPARADOR_TEXT_KEY + " " + pLinia.getNomLinia();
 	}
 }

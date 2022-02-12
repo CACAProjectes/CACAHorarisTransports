@@ -10,9 +10,7 @@ public class Parada implements Serializable {
 	 */	
 	private int idParada;
 	private String nomParada;
-	private String hora;
-	private int tempsEspera1;
-	private int tempsEspera2;
+	private TempsEspera tempsEspera;
 	private boolean esOrigen;
 	private int ordre;
 	
@@ -25,11 +23,9 @@ public class Parada implements Serializable {
 	public int getOrdre() {
 		return ordre;
 	}
-
 	public void setOrdre(int ordre) {
 		this.ordre = ordre;
 	}
-
 	public int getIdParada() {
 		return idParada;
 	}
@@ -42,32 +38,18 @@ public class Parada implements Serializable {
 	public void setNomParada(String nomParada) {
 		this.nomParada = nomParada;
 	}
-	public String getHora() {
-		return hora;
-	}
-	public void setHora(String hora) {
-		this.hora = hora;
-	}
-	public int getTempsEspera1() {
-		return tempsEspera1;
-	}
-	public void setTempsEspera1(int tempsEspera1) {
-		this.tempsEspera1 = tempsEspera1;
-	}
-	public int getTempsEspera2() {
-		return tempsEspera2;
-	}
-	public void setTempsEspera2(int tempsEspera2) {
-		this.tempsEspera2 = tempsEspera2;
-	}
 	public boolean isEsOrigen() {
 		return esOrigen;
 	}
 	public void setEsOrigen(boolean esOrigen) {
 		this.esOrigen = esOrigen;
 	}
-	
-	
-	
 
+	public TempsEspera getTempsEspera() {
+		return tempsEspera;
+	}
+
+	public void setTempsEspera(TempsEspera tempsEspera) {
+		this.tempsEspera = tempsEspera;
+	}
 }

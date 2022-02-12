@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import es.xuan.horaristransportsapp.R;
 import es.xuan.horaristransportsapp.model.Favorit;
+import es.xuan.horaristransportsapp.utils.Utils;
 
 public class FavoritsViewAdapter extends ArrayAdapter<Favorit> {
 
@@ -61,16 +62,24 @@ public class FavoritsViewAdapter extends ArrayAdapter<Favorit> {
         TextView textView3 = currentItemView.findViewById(R.id.tvElementOrigen);
         textView3.setText(Repositori.CTE_REPOSITORI_ORIGEN + ": " + currentNumberPosition.getParadaOrigen().getNomParada());
         TextView textView3a = currentItemView.findViewById(R.id.tvElementOrigenHora);
-        textView3a.setText(currentNumberPosition.getParadaOrigen().getHora() +
-                " - " + currentNumberPosition.getParadaOrigen().getTempsEspera1() + "m " +
-                " - " + currentNumberPosition.getParadaOrigen().getTempsEspera2() + "m");
+        String strTemps = currentNumberPosition.getParadaOrigen().getTempsEspera().getHora() +
+                " / " + Utils.omplirMinuts(currentNumberPosition.getParadaOrigen().getTempsEspera().getTempsEspera1()) + "m " +
+                "/ " + Utils.omplirMinuts(currentNumberPosition.getParadaOrigen().getTempsEspera().getTempsEspera2()) + "m";
+        if (currentNumberPosition.getParadaOrigen().getTempsEspera().getTempsEsperaAnt() > 0 &&
+                currentNumberPosition.getParadaOrigen().getTempsEspera().getTempsEsperaAnt() < 10) {
+            // Només mostra el temps d'espera anterior si es menor a 10 minuts
+            strTemps = "[" + currentNumberPosition.getParadaOrigen().getTempsEspera().getTempsEsperaAnt() + "m " + "]" +
+                    " / " + currentNumberPosition.getParadaOrigen().getTempsEspera().getHora() +
+                    " / " + Utils.omplirMinuts(currentNumberPosition.getParadaOrigen().getTempsEspera().getTempsEspera1()) + "m " +
+                    "/ " + Utils.omplirMinuts(currentNumberPosition.getParadaOrigen().getTempsEspera().getTempsEspera2()) + "m";
+        }
+        textView3a.setText(strTemps);
         // DESTÍ: Can Rosés
         TextView textView4 = currentItemView.findViewById(R.id.tvElementDesti);
         textView4.setText(Repositori.CTE_REPOSITORI_DESTI + ": " + currentNumberPosition.getParadaDesti().getNomParada());
         TextView textView4a = currentItemView.findViewById(R.id.tvElementDestiHora);
-        textView4a.setText(currentNumberPosition.getParadaDesti().getHora() +
-                " - " + currentNumberPosition.getParadaDesti().getTempsEspera1() + "m " +
-                " - " + currentNumberPosition.getParadaDesti().getTempsEspera2() + "m");
+        textView4a.setText(currentNumberPosition.getParadaDesti().getTempsEspera().getHora() +
+                "                        ");
         // Colors de Linia i Fons
         LinearLayout llElementLinia = currentItemView.findViewById(R.id.llElementLinia);
         int iColor = getContext().getResources().getIdentifier("color"+ liniaText +"Fons", "color", getContext().getPackageName());
