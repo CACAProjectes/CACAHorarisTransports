@@ -11,5 +11,10 @@
     <string name="urlRUBIBUS">https://rubibus.com/index.asp</string>
     <string name="liniesSentits">Linies i sentits:</string>
     <string name="parades">Parades:</string>
+    <string name="no">No</string>
+    <string name="si">Si</string>
+    <string name="missatgeEsborrarFavorit">Vols eliminiar aquesta parada de Favorits?</string>
+    <string name="missateEsborrarFavoritTitle">Eliminar Favorit</string>
+    <string name="missatgeEsborrarFavoritOk">Favorit eliminat!</string>
 
 </resources>

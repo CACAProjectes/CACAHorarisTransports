@@ -10,6 +10,7 @@ public class Linia implements Serializable {
 	private int idLinia;
 	private int idSentit;
 	private String nomLinia;
+	private boolean selected;
 	
 	public Linia(int pLinia, int pSentit, String pNomLinia) {
 		idLinia = pLinia;
@@ -18,6 +19,14 @@ public class Linia implements Serializable {
 	}
 	public Linia() {
 		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public Object clone() {
+		try {
+			return (Linia) super.clone();
+		} catch (CloneNotSupportedException e) {
+			return new Linia(this.idLinia, this.idSentit, this.nomLinia);
+		}
 	}
 	public int getIdLinia() {
 		return idLinia;
@@ -40,5 +49,13 @@ public class Linia implements Serializable {
 	@Override
 	public String toString() {
 		return "" + getIdLinia() + ", " + getIdSentit() + ", " + getNomLinia();
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 }

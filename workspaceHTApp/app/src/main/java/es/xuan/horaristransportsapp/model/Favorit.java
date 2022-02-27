@@ -8,7 +8,16 @@ public class Favorit implements Serializable {
 	private Linia linia;
 	private Parada paradaOrigen;
 	private Parada paradaDesti;
-	
+
+	public Favorit(Linia pLinia, Parada pParadaOrigen, Parada pParadaDesti) {
+		linia = pLinia;
+		paradaOrigen = pParadaOrigen;
+		paradaDesti = pParadaDesti;
+	}
+
+	public Favorit() {
+	}
+
 	public Linia getLinia() {
 		return linia;
 	}

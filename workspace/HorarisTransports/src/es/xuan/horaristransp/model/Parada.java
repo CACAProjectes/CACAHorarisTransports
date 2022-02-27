@@ -2,7 +2,7 @@ package es.xuan.horaristransp.model;
 
 import java.io.Serializable;
 
-public class Parada implements Serializable {
+public class Parada implements Serializable, Comparable {
 	private static final long serialVersionUID = 1L;
 	/*
 	 * ORIGEN: Països Catalans	17:50 -  2 min - 15 min
@@ -67,7 +67,14 @@ public class Parada implements Serializable {
 		this.esOrigen = esOrigen;
 	}
 	
-	
-	
+	@Override
+	public int compareTo(Object o) {
+	    Parada other = (Parada)o;
+	    if (this == other)
+	        return 0;
+	    if (this.ordre < other.ordre) return -1;
+	    else if (this.ordre == other.ordre) return 0;
+	    else return 1;
 
+	}
 }

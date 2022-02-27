@@ -168,7 +168,7 @@
 
             <TextView
                 android:id="@+id/tvFiltre"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="5dp"
@@ -177,6 +177,23 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/labelFormShort"
                 android:textStyle="normal" />
+            <LinearLayout
+                android:id="@+id/llFavoritAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/nivell3"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|end">
+                <ImageView
+                    android:id="@+id/ivFavoritAdd"
+                    android:layout_width="@dimen/iconMedium"
+                    android:layout_height="@dimen/iconMedium"
+                    android:layout_weight="0"
+                    android:scaleType="fitStart"
+                    android:padding="2dp"
+                    android:gravity="right"
+                    app:srcCompat="@mipmap/ic_favorit_add_foreground" />
+            </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
@@ -188,10 +205,11 @@
             android:gravity="top">
             <LinearLayout
                 android:id="@+id/llLlistaLinies"
-                android:layout_width="258dp"
+                android:layout_width="235dp"
                 android:layout_height="match_parent"
                 android:background="@color/nivell4"
                 android:orientation="vertical"
+                android:paddingLeft="2dp"
                 android:gravity="top">
                 <TextView
                     android:id="@+id/tvTitolLinies"
@@ -229,7 +247,7 @@
                     android:textSize="@dimen/labelFormXShort"
                     android:textStyle="bold" />
                 <ListView
-                    android:id="@+id/listViewLiniaHores"
+                    android:id="@+id/listViewLiniaNoms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />

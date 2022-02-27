@@ -122,7 +122,7 @@ public class Repositori implements Serializable {
          */
         for (String linia : pLinies) {
             String[] strAux = linia.split(CTE_SEPARADOR_TEXT_KEY);
-            Linia liniaAux = new Linia(Integer.parseInt(strAux[1]), Integer.parseInt(strAux[2]), strAux[3] + CTE_SEPARADOR_TEXT_KEY + strAux[3]);
+            Linia liniaAux = new Linia(Integer.parseInt(strAux[1]), Integer.parseInt(strAux[2]), strAux[3] + CTE_SEPARADOR_TEXT_KEY + strAux[4]);
             linies.add(liniaAux);
         }
         return linies;

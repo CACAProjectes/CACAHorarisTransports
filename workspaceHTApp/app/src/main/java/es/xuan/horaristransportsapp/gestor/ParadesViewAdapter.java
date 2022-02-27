@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,16 +14,16 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 import es.xuan.horaristransportsapp.R;
-import es.xuan.horaristransportsapp.model.Favorit;
 import es.xuan.horaristransportsapp.model.Linia;
+import es.xuan.horaristransportsapp.model.Parada;
 import es.xuan.horaristransportsapp.utils.Utils;
 
-public class LiniesViewAdapter extends ArrayAdapter<Linia> {
+public class ParadesViewAdapter extends ArrayAdapter<Parada> {
 
     private final String CTE_L2 = "L2";
 
     // invoke the suitable constructor of the ArrayAdapter class
-    public LiniesViewAdapter(@NonNull Context context, ArrayList<Linia> arrayList) {
+    public ParadesViewAdapter(@NonNull Context context, ArrayList<Parada> arrayList) {
 
         // pass the context and arrayList for the super
         // constructor of the ArrayAdapter class
@@ -44,27 +43,25 @@ public class LiniesViewAdapter extends ArrayAdapter<Linia> {
         }
 
         // get the position of the view from the ArrayAdapter
-        Linia currentNumberPosition = getItem(position);
+        Parada currentNumberPosition = getItem(position);
 
-        // L5
-        String liniaText = Utils.parserLinia2String(currentNumberPosition);
-        String liniaTextID = Repositori.CTE_REPOSITORI_LINIA + currentNumberPosition.getIdLinia();
+        // Can Rosés
+        String paradaText = currentNumberPosition.getNomParada();
         //
         TextView textView1 = currentItemView.findViewById(R.id.tvLlistaLiniaElement);
-        if (currentNumberPosition.isSelected())
-            textView1.setText("> " + liniaText);
+        if (currentNumberPosition.getSelected() != 'F' &&
+            currentNumberPosition.getSelected() != 0)
+            textView1.setText(">"+currentNumberPosition.getSelected()+"< " + paradaText);
         else
-            textView1.setText(liniaText);
+            textView1.setText(paradaText);
         //
-        if (liniaTextID.equals(CTE_L2))
-            textView1.setTextColor(getContext().getColor(R.color.black));
-        else
-            textView1.setTextColor(getContext().getColor(R.color.white));
+        textView1.setTextColor(getContext().getColor(R.color.black));
         //
-        int iColorFons = getContext().getResources().getIdentifier("color"+liniaTextID, "color", getContext().getPackageName());
+        int iColorFons = getContext().getResources().getIdentifier("nivell3", "color", getContext().getPackageName());
         textView1.setBackground(getContext().getResources().getDrawable(iColorFons, getContext().getTheme()));
         //
-        if (currentNumberPosition.isSelected())
+        if (currentNumberPosition.getSelected() != 'F' &&
+                currentNumberPosition.getSelected() != 0)
             textView1.setTypeface(Typeface.DEFAULT_BOLD);
         else
             textView1.setTypeface(Typeface.DEFAULT);

@@ -165,7 +165,7 @@ public class Utils implements Serializable {
 		String[] iHoraDif = pHoraDif.split(":");
 		int iRes = (Integer.parseInt(iHoraDif[0]) * 60 + Integer.parseInt(iHoraDif[1])) -
 				(Integer.parseInt(iHora[0]) * 60 + Integer.parseInt(iHora[1]));
-		return (iRes < -9 ? 0 : iRes);
+		return iRes;
 	}
 
 	public static String parserLinia2String(Linia pLinia) {

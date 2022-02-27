@@ -2,7 +2,9 @@ package es.xuan.horaristransportsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -11,13 +13,18 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +32,7 @@ import java.util.Hashtable;
 import es.xuan.horaristransportsapp.gestor.FavoritsViewAdapter;
 import es.xuan.horaristransportsapp.gestor.GestorHorarisTransports;
 import es.xuan.horaristransportsapp.gestor.LiniesViewAdapter;
+import es.xuan.horaristransportsapp.gestor.ParadesViewAdapter;
 import es.xuan.horaristransportsapp.gestor.Repositori;
 import es.xuan.horaristransportsapp.gestor.Temporitzador;
 import es.xuan.horaristransportsapp.model.Favorit;
@@ -43,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTvDataAvui = null;
     private ListView mLvLinies = null;
     private ListView mLvFavorits = null;
-    private ListView mLvLiniaParadesHores = null;
-    private TextView mLvLiniesElement = null;
-    private TextView mTvLiniaAnt = null;
+    private ListView mLvLiniaParadesNoms = null;
+    private ListView mListViewFav = null;
+    private ImageView mIvFavoritAdd = null;
+    private Linia mLiniaAnt = null;
+    private Parada mParadaAnt = null;
+    private Vibrator mVibr = null;
     //  Dades
     private String CTE_KEY_REPOSITORI_SP = "REPOSITORI_SP";
     private String CTE_KEY_HORARIS_TRANSPORTS_SP = "HORARIS_TRANSPORTS_SP";
@@ -74,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         actualitzarHorarisFixes();
         //////////////////////////////////////////////////////7
         // Només s'ecuta una vegada per proves amb FAVORITS
-        mHorarisTrans.setFavorits(testFavorits());
+        //mHorarisTrans.setFavorits(testFavorits());
         //guardarHorarisTransports();
         //////////////////////////////////////////////////////7
     }
@@ -138,9 +149,88 @@ public class MainActivity extends AppCompatActivity {
     private void inicialitzarElementsPantalla() {
         mTvDataAvui = (TextView)findViewById(R.id.tvDataAvui);
         //
+        mVibr = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        //
         mLvLinies = (ListView)findViewById(R.id.listViewLinies);
         mLvFavorits = (ListView)findViewById(R.id.listViewFav);
-        mLvLiniaParadesHores = (ListView)findViewById(R.id.listViewLiniaHores);
+        mLvLiniaParadesNoms = (ListView)findViewById(R.id.listViewLiniaNoms);
+        mIvFavoritAdd = (ImageView)findViewById(R.id.ivFavoritAdd);
+        mIvFavoritAdd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                for (Parada parada : mHorarisTrans.getParades()) {
+                    if (parada.getSelected() != 0 &&
+                        parada.getSelected() != 'F') {
+                        //
+                        Linia linia = null;
+                        for (Linia liniaAux : mHorarisTrans.getLinies()) {
+                            if (liniaAux.isSelected()) {
+                                linia = liniaAux;
+                                break;
+                            }
+                        }
+                        //
+                        Favorit favorit = new Favorit(linia, parada, null);
+                        mHorarisTrans.getFavorits().add(favorit);
+                        //
+                        guardarHorarisTransports();
+                        calcularTempsFavorits();
+                        actualitzarPantalla();
+                    }
+                }
+            }
+        });
+        mListViewFav = (ListView)findViewById(R.id.listViewFav);
+        mListViewFav.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d("Llista de favorits per esborrar", "Favorits: " + position);
+                // Es comenta per evitar la doble vibració
+                //Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                //
+                mostrarAlerta(position);
+                //
+                return true;
+            }
+        });
+
+    }
+
+    private void mostrarAlerta(int pPosition) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //Setting message manually and performing action on button click
+        builder.setMessage(R.string.missatgeEsborrarFavorit)
+                .setTitle(R.string.missateEsborrarFavoritTitle)
+                .setCancelable(false)
+                .setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                        mHorarisTrans.getFavorits().remove(pPosition);
+                        //
+                        guardarHorarisTransports();
+                        calcularTempsFavorits();
+                        actualitzarPantalla();
+                        //
+                        dialog.cancel();
+                        Toast.makeText(getApplicationContext(),R.string.missatgeEsborrarFavoritOk,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //
+        alert.show();
+    }
+
+    private void inicialitzarTimer() {
+        Temporitzador temporitzador = new Temporitzador(this);
+        temporitzador.inicialitzarTimerSeg();
     }
 
     public void actualitzarHoraris(Message pMessage) {
@@ -156,19 +246,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void actualitzarPantallaFixes() {
         //  Mostrar en pantalla les Linies
-        /*
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                //android.R.layout.simple_list_item_1, android.R.id.text1, parserLinies2Strings(mHorarisTrans.getLinies()));
-                R.layout.llistalinieselement, R.id.tvLlistaLiniaElement, parserLinies2Strings(mHorarisTrans.getLinies()));
-        mLvLinies.setAdapter(adapter);
-        mLvLinies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Log.d("actualitzarDadesFixes", "Linia: " + adapter.getItem(position));
-            }
-        });
-        */
-        //  Mostrar en pantalla els horaris de favorits
         LiniesViewAdapter liniesArrayAdapter = new LiniesViewAdapter(this, mHorarisTrans.getLinies());
         // set the numbersViewAdapter for ListView
         mLvLinies.setAdapter(liniesArrayAdapter);
@@ -176,42 +253,120 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Log.d("actualitzarDadesFixes", "Linia: " + liniesArrayAdapter.getItem(position));
-                // Recuperar el valor anterior
-                if (mTvLiniaAnt != null) {
-                    mTvLiniaAnt.setText(Utils.parserLinia2String(mHorarisTrans.getLinies().get(position)));
-                    mTvLiniaAnt.setTypeface(Typeface.DEFAULT);
-                }
-                // Actualitzar el nou item
-                TextView tv = (TextView)view;
-                tv.setText("> " + tv.getText());
-                tv.setTypeface(Typeface.DEFAULT_BOLD);
-                // Guardar el nou item
-                mTvLiniaAnt = tv;
                 //
-                actualitzarPantallaLinies(liniesArrayAdapter.getItem(position).getIdLinia(),
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                //
+                ArrayList<Linia> arr = (ArrayList<Linia>) mHorarisTrans.getLinies().clone();
+                if (mLiniaAnt != null)
+                    mLiniaAnt.setSelected(false);
+                //
+                Linia linia = (Linia)arr.get(position).clone();
+                linia.setSelected(true);
+                arr.set(position, linia);
+                //
+                mLiniaAnt = linia;
+                //
+                liniesArrayAdapter.clear();
+                liniesArrayAdapter.addAll(arr);
+                //
+                actualitzarPantallaLiniaNoms(liniesArrayAdapter.getItem(position).getIdLinia(),
                         liniesArrayAdapter.getItem(position).getIdSentit());
             }
         });
     }
 
-    private void actualitzarPantallaLinies(int idLinia, int idSentit) {
+    private void actualitzarPantallaLiniaNoms(int idLinia, int idSentit) {
+        //  Mostrar en pantalla les parades
+        mHorarisTrans.setParades(obtenirLiniaParades(idLinia, idSentit));
+        ParadesViewAdapter paradesArrayAdapter = new ParadesViewAdapter(this, mHorarisTrans.getParades());
+        // set the numbersViewAdapter for ListView
+        mLvLiniaParadesNoms.setAdapter(paradesArrayAdapter);
+        mLvLiniaParadesNoms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d("actualitzarDadesFixes", "Linia: " + paradesArrayAdapter.getItem(position));
+                //
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                //
+                ArrayList<Parada> arr = (ArrayList<Parada>) mHorarisTrans.getParades().clone();
+                if (mParadaAnt != null)
+                    mParadaAnt.setSelected('F');
+                //
+                Parada parada = (Parada)arr.get(position).clone();
+                parada.setSelected('O');
+                arr.set(position, parada);
+                //
+                mParadaAnt = parada;
+                //
+                paradesArrayAdapter.clear();
+                paradesArrayAdapter.addAll(arr);
+                //
+                mostrarHoraParada(parada);
+            }
+        });
+        mLvLiniaParadesNoms.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d("actualitzarDadesFixes", "Linia: " + paradesArrayAdapter.getItem(position));
+                //
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                //
+                ArrayList<Parada> arr = (ArrayList<Parada>) mHorarisTrans.getParades().clone();
+                if (mParadaAnt != null)
+                    mParadaAnt.setSelected('F');
+                //
+                Parada parada = (Parada)arr.get(position).clone();
+                parada.setSelected('D');
+                arr.set(position, parada);
+                //
+                mParadaAnt = parada;
+                //
+                paradesArrayAdapter.clear();
+                paradesArrayAdapter.addAll(arr);
+                // No debería mostrar la hora de salida, ya que depende del Origen
+                //mostrarHoraParada(parada);
+                //
+                return true;
+            }
+        });
+    }
 
-        //  Mostrar en pantalla les Linies
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1,
-                obtenirLiniaParades(idLinia, idSentit));
-        mLvLiniaParadesHores.setAdapter(adapter);
+    void mostrarMissate(String pMissatge) {
+        Toast.makeText(getApplicationContext(), pMissatge, Toast.LENGTH_LONG).show();
+    }
+
+    private void mostrarHoraParada(Parada parada) {
+        ArrayList<Linia> arr = (ArrayList<Linia>) mHorarisTrans.getLinies();
+        Linia liniaAux = null;
+        for(Linia linia : arr) {
+            if (linia.isSelected()) {
+                liniaAux = linia;
+                break;
+            }
+        }
+        ArrayList<String> hores = obtenirLiniaHores(
+                liniaAux.getIdLinia(),
+                liniaAux.getIdSentit(),
+                mHorarisTrans.getJornada(),
+                parada.getIdParada());
+        String horaAvui = Utils.formatDataHora(mHorarisTrans.getAvui());
+        TempsEspera tempsExpera = Utils.obtenirHoraPropera(hores, horaAvui, null);
+        //
+        if (tempsExpera.getTempsEsperaAnt() >= -10)
+            mostrarMissate(liniaAux.getNomLinia() + System.lineSeparator() +
+                    parada.getNomParada() + ", " +
+                    "[" + tempsExpera.getTempsEsperaAnt() + "m] " + tempsExpera.getHora() + " [" + tempsExpera.getTempsEspera1() + "m]");
+        else
+            mostrarMissate(liniaAux.getNomLinia() + System.lineSeparator() +
+                    parada.getNomParada() + ", " +
+                    "" + tempsExpera.getHora() + " [" + tempsExpera.getTempsEspera1() + "m]");
     }
 
     private void actualitzarDadesTemporals() {
         //  Data d'avui
         calcularTempsAvui();
-        //  Actualitzar horaris favorits
+        //
         calcularTempsFavorits();
-    }
-
-    private void calcularTempsAvui() {
-        mHorarisTrans.setAvui(Calendar.getInstance());
     }
 
     private void actualitzarDadesFixes() {
@@ -221,42 +376,6 @@ public class MainActivity extends AppCompatActivity {
         mHorarisTrans.setLinies(obtenirLiniesGeneral());
     }
 
-    private ArrayList<Linia> obtenirLiniesGeneral() {
-        //
-        ArrayList<Linia> liniesRes = null;
-        // obtenir linies del Repositori
-        ArrayList<String> liniesStr = Repositori.getDades().get(Repositori.CTE_REPOSITORI_LINIA);
-        if (liniesStr != null && liniesStr.size() > 0) {
-            Log.d("obtenirLiniesGeneral","Repositori");
-            liniesRes = Repositori.parserString2Linies(liniesStr);
-        }
-        else {
-            // obtenir linies de la Web
-            Log.d("obtenirLiniesGeneral","Web");
-            ArrayList<Linia> liniesLinia = GestorHorarisTransports.obtenirLinies();
-            // Si n'hi ha dades es guarda al Repositori
-            if (liniesLinia != null && liniesLinia.size() > 0) {
-                Log.d("obtenirLiniesGeneral","Guardar Web TO Repositori");
-                Repositori.putDades(Repositori.CTE_REPOSITORI_LINIA, Repositori.parserLinies2String(liniesLinia));
-                guardarRepositori();
-            }
-        }
-        return liniesRes;
-    }
-
-    private void actualitzarPantallaHores(int idLinia,
-                                          int idSentit,
-                                          int idJornada,
-                                          int idParada) {
-        //  Mostrar en pantalla les Linies
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1,
-                obtenirLiniaHores(idLinia,
-                    idSentit,
-                    idJornada,
-                    idParada));
-        mLvLiniaParadesHores.setAdapter(adapter);
-    }
     private void actualitzarPantalla() {
         // Data i hora actual
         String str = Utils.formatDataComplerta(mHorarisTrans.getAvui(), mHorarisTrans.getIdioma());
@@ -267,68 +386,44 @@ public class MainActivity extends AppCompatActivity {
             //  Mostrar en pantalla els horaris de favorits
             FavoritsViewAdapter favoritsArrayAdapter = new FavoritsViewAdapter(this, mHorarisTrans.getFavorits());
             // create the instance of the ListView to set the numbersViewAdapter
-            ListView favoritsListView = findViewById(R.id.listViewFav);
+            //ListView favoritsListView = findViewById(R.id.listViewFav);
             // set the numbersViewAdapter for ListView
-            favoritsListView.setAdapter(favoritsArrayAdapter);
+            //favoritsListView.setAdapter(favoritsArrayAdapter);
+            mLvFavorits.setAdapter(favoritsArrayAdapter);
         }
     }
 
-    private void inicialitzarTimer() {
-        Temporitzador temporitzador = new Temporitzador(this);
-        temporitzador.inicialitzarTimerSeg();
+    private void calcularTempsAvui() {
+        mHorarisTrans.setAvui(Calendar.getInstance());
     }
-    private void iniXarxesSocials() {
-        final Vibrator vibr = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        // RubíBUS
-        ImageView button1 = (ImageView)findViewById(R.id.ivLogoXS);
-        button1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Utils.vibrar(vibr, CTE_VIBRATION_MS);
-                Intent viewIntent =
-                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlRUBIBUS)));
-                startActivity(viewIntent);
+
+    private void calcularTempsFavorits() {
+        String horaAvui = Utils.formatDataHora(mHorarisTrans.getAvui());
+        if (mHorarisTrans != null &&
+                mHorarisTrans.getFavorits() != null &&
+                mHorarisTrans.getFavorits().size() > 0) {
+            for (Favorit favorit : mHorarisTrans.getFavorits()) {
+                // ORIGEN
+                ArrayList<String> hores = obtenirLiniaHores(
+                        favorit.getLinia().getIdLinia(),
+                        favorit.getLinia().getIdSentit(),
+                        mHorarisTrans.getJornada(),
+                        favorit.getParadaOrigen().getIdParada());
+                //
+                Parada paradaOrigen = favorit.getParadaOrigen();
+                paradaOrigen.setTempsEspera(Utils.obtenirHoraPropera(hores, horaAvui, null));
+                // DESTÍ
+                if (favorit.getParadaDesti() != null) {
+                    hores = obtenirLiniaHores(
+                            favorit.getLinia().getIdLinia(),
+                            favorit.getLinia().getIdSentit(),
+                            mHorarisTrans.getJornada(),
+                            favorit.getParadaDesti().getIdParada());
+                    Parada paradaDesti = favorit.getParadaDesti();
+                    paradaDesti.setTempsEspera(Utils.obtenirHoraPropera(hores, horaAvui, paradaOrigen.getTempsEspera().getHora()));
+                }
             }
-        });
-        // Enviar email - Gmail
-        ImageView button2 = (ImageView)findViewById(R.id.ivGmail);
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Utils.vibrar(vibr, CTE_VIBRATION_MS);
-                Intent viewIntent =
-                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlGmail)));
-                startActivity(viewIntent);
-            }
-        });
-        // Facebook
-        ImageView button3 = (ImageView)findViewById(R.id.ivFacebook);
-        button3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Utils.vibrar(vibr, CTE_VIBRATION_MS);
-                Intent viewIntent =
-                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlFacebook)));
-                startActivity(viewIntent);
-            }
-        });
-        // Twitter
-        ImageView button4 = (ImageView)findViewById(R.id.ivTwitter);
-        button4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Utils.vibrar(vibr, CTE_VIBRATION_MS);
-                Intent viewIntent =
-                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlTwitter)));
-                startActivity(viewIntent);
-            }
-        });
-        // Instagram
-        ImageView button5 = (ImageView)findViewById(R.id.ivInstagram);
-        button5.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Utils.vibrar(vibr, CTE_VIBRATION_MS);
-                Intent viewIntent =
-                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlInstagram)));
-                startActivity(viewIntent);
-            }
-        });
+        }
     }
 
     private ArrayList<Favorit> testFavorits() {
@@ -364,57 +459,27 @@ public class MainActivity extends AppCompatActivity {
         return arrFavorits;
     }
 
-    private void calcularTempsFavorits() {
-        String horaAvui = Utils.formatDataHora(mHorarisTrans.getAvui());
-        if (mHorarisTrans != null &&
-                mHorarisTrans.getFavorits() != null &&
-                mHorarisTrans.getFavorits().size() > 0) {
-            for (Favorit favorit : mHorarisTrans.getFavorits()) {
-                // ORIGEN
-                ArrayList<String> hores = obtenirTempsFavorits(favorit, favorit.getParadaOrigen().getIdParada());
-                //
-                Parada paradaOrigen = favorit.getParadaOrigen();
-                paradaOrigen.setTempsEspera(Utils.obtenirHoraPropera(hores, horaAvui, null));
-                // DESTÍ
-                hores = obtenirTempsFavorits(favorit, favorit.getParadaDesti().getIdParada());
-                //
-                Parada paradaDesti = favorit.getParadaDesti();
-                paradaDesti.setTempsEspera(Utils.obtenirHoraPropera(hores, horaAvui, paradaOrigen.getTempsEspera().getHora()));
-            }
-        }
-    }
-
-    private ArrayList<String> obtenirTempsFavorits(Favorit pFavorit, int idParada) {
+    private ArrayList<Linia> obtenirLiniesGeneral() {
         //
-        ArrayList<String> horesRes = null;
+        ArrayList<Linia> liniesRes = null;
         // obtenir linies del Repositori
-        /*
-            Obtenir hores (LINIA-SENTIT-JORNADA-PARADA)
-            "4-5-1-368-06:33"
-         */
-        String strKey = "" + pFavorit.getLinia().getIdLinia() + CTE_SEPARADOR +
-                pFavorit.getLinia().getIdSentit() + CTE_SEPARADOR +
-                mHorarisTrans.getJornada() + CTE_SEPARADOR +
-                idParada;
-        horesRes = Repositori.getDades().get(strKey);
-        if (CTE_REPOSITORI_LECTURA && horesRes != null && horesRes.size() > 0) {
-            Log.d("obtenirTempsFavorits","Repositori");
+        ArrayList<String> liniesStr = Repositori.getDades().get(Repositori.CTE_REPOSITORI_LINIA);
+        if (liniesStr != null && liniesStr.size() > 0) {
+            Log.d("obtenirLiniesGeneral","Repositori");
+            liniesRes = Repositori.parserString2Linies(liniesStr);
         }
         else {
             // obtenir linies de la Web
-            Log.d("obtenirTempsFavorits","Web");
-            horesRes = GestorHorarisTransports.obtenirHoresParada(pFavorit.getLinia().getIdLinia(),
-                    pFavorit.getLinia().getIdSentit(),
-                    mHorarisTrans.getJornada(),
-                    idParada);
+            Log.d("obtenirLiniesGeneral","Web");
+            ArrayList<Linia> liniesLinia = GestorHorarisTransports.obtenirLinies();
             // Si n'hi ha dades es guarda al Repositori
-            if (horesRes != null && horesRes.size() > 1) {  // Al menys hi ha una hora 00:00
-                Log.d("obtenirTempsFavorits","Guardar Web TO Repositori");
-                Repositori.putDades(strKey, horesRes);
+            if (liniesLinia != null && liniesLinia.size() > 0) {
+                Log.d("obtenirLiniesGeneral","Guardar Web TO Repositori");
+                Repositori.putDades(Repositori.CTE_REPOSITORI_LINIA, Repositori.parserLinies2String(liniesLinia));
                 guardarRepositori();
             }
         }
-        return horesRes;
+        return liniesRes;
     }
 
     private ArrayList<String> obtenirLiniaHores(int idLinia,
@@ -423,7 +488,7 @@ public class MainActivity extends AppCompatActivity {
                                                 int idParada) {
         //
         ArrayList<String> horesRes = null;
-        // obtenir linies del Repositori
+        // obtenir hores del Repositori
         /*
             Obtenir hores (LINIA-SENTIT-JORNADA-PARADA)
             "4-5-1-368-06:33"
@@ -437,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("obtenirLiniaHores","Repositori");
         }
         else {
-            // obtenir linies de la Web
+            // obtenir hores de la Web
             Log.d("obtenirLiniaHores","Web");
             horesRes = GestorHorarisTransports.obtenirHoresParada(idLinia, idSentit, idJornada, idParada);
             // Si n'hi ha dades es guarda al Repositori
@@ -449,36 +514,94 @@ public class MainActivity extends AppCompatActivity {
         }
         return horesRes;
     }
-    private ArrayList<String> obtenirLiniaParades(int idLinia,
-                                                int idSentit) {
+    private ArrayList<Parada> obtenirLiniaParades(int idLinia, int idSentit) {
         //
-        ArrayList<String> parades = null;
-        // obtenir linies del Repositori
+        ArrayList<Parada> parades = null;
+        // obtenir parades del Repositori
         /*
-            Obtenir hores (LINIA-SENTIT)
+            Obtenir parades (LINIA-SENTIT)
             "4-5-Parada1"
          */
         String strKey = "" + idLinia + CTE_SEPARADOR +
                 idSentit;
-        parades = Repositori.getDades().get(strKey);
-        if (parades != null && parades.size() > 0) {
+        ArrayList<String> paradesStr = Repositori.getDades().get(strKey);
+        if (paradesStr != null && paradesStr.size() > 0) {
             Log.d("obtenirLiniaParades","Repositori");
+            parades = new ArrayList<Parada>();
+            int iOrdre = 0;
+            for (String parada : paradesStr) {
+                parades.add(new Parada(0, iOrdre, parada));
+            }
         }
         else {
-            // obtenir linies de la Web
-            Log.d("obtenirLiniaHores","Web");
-            ArrayList<Parada> paradesPar = GestorHorarisTransports.obtenirParadesLinia(idLinia, idSentit);
+            // obtenir parades de la Web
+            Log.d("obtenirLiniaParades","Web");
+            parades = GestorHorarisTransports.obtenirParadesLinia(idLinia, idSentit);
             // Si n'hi ha dades es guarda al Repositori
-            if (paradesPar != null && paradesPar.size() > 0) {
+            if (parades != null && parades.size() > 0) {
                 Log.d("obtenirLiniaHores","Guardar Web TO Repositori");
-                parades = new ArrayList<String>();
-                for (Parada parada : paradesPar) {
-                    parades.add(parada.getNomParada());
+                paradesStr = new ArrayList<String>();
+                for (Parada parada : parades) {
+                    paradesStr.add(parada.getNomParada());
                 }
-                Repositori.putDades(strKey, parades);
+                Repositori.putDades(strKey, paradesStr);
                 guardarRepositori();
             }
         }
         return parades;
     }
+
+    private void iniXarxesSocials() {
+        // RubíBUS
+        ImageView button1 = (ImageView)findViewById(R.id.ivLogoXS);
+        button1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlRUBIBUS)));
+                startActivity(viewIntent);
+            }
+        });
+        // Enviar email - Gmail
+        ImageView button2 = (ImageView)findViewById(R.id.ivGmail);
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlGmail)));
+                startActivity(viewIntent);
+            }
+        });
+        // Facebook
+        ImageView button3 = (ImageView)findViewById(R.id.ivFacebook);
+        button3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlFacebook)));
+                startActivity(viewIntent);
+            }
+        });
+        // Twitter
+        ImageView button4 = (ImageView)findViewById(R.id.ivTwitter);
+        button4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlTwitter)));
+                startActivity(viewIntent);
+            }
+        });
+        // Instagram
+        ImageView button5 = (ImageView)findViewById(R.id.ivInstagram);
+        button5.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Utils.vibrar(mVibr, CTE_VIBRATION_MS);
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW", Uri.parse(getString(R.string.urlInstagram)));
+                startActivity(viewIntent);
+            }
+        });
+    }
+
 }

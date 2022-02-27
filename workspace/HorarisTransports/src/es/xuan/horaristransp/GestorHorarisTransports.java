@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 
@@ -307,6 +308,8 @@ public class GestorHorarisTransports implements Serializable {
 			}
 		} while (ind1 > 0);
 		//
+		Collections.sort(arrParades);
+		// 
 		return arrParades;
 	}
 

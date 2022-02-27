@@ -77,6 +77,9 @@ public class GestorHorarisTransports implements Serializable {
 			//System.out.println("Thread obtenirParadesLinia Interrumput");
 			e.printStackTrace();
 		}
+		//
+		Collections.sort(mArrParades);
+		//
 		return mArrParades;
 	}
 

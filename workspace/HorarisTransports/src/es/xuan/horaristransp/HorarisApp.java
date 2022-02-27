@@ -20,21 +20,25 @@ public class HorarisApp {
 		HorarisTransports horarisTrans = GestorHorarisTransports.getInstance();
 		
 		//
-		//ArrayList<Parada> parades = GestorHorarisTransports.obtenirParadesLinia(5, 8);
-		ArrayList<String> hores = GestorHorarisTransports.obtenirHoresParada(4, 5, 1, 368);
+		ArrayList<Parada> parades = GestorHorarisTransports.obtenirParadesLinia(5, 8);
+		//ArrayList<String> hores = GestorHorarisTransports.obtenirHoresParada(4, 5, 1, 368);
 		//ArrayList<String> tempsEspera = GestorHorarisTransports.obtenirTempsEspera(4, 5, 1, 368);
 		//ArrayList<String> tempsEspera = GestorHorarisTransports.obtenirTempsEspera(3, 13, 1, 294);
 		//
 		//System.out.println(Utils.formatDataComplerta(horarisTrans.getAvui(), horarisTrans.getIdioma()));
-		//System.out.println("Nº parades: " + parades.size());
-		System.out.println("Hores: ");
-		for(String hora:hores) {
-			System.out.println(hora);
-		}
+		//System.out.println("Hores: ");
+		//for(String hora:hores) {
+		//	System.out.println(hora);
+		//}
 		//System.out.println("Temps d'espera: ");
 		//for(String temps:tempsEspera) {
 		//	System.out.println(temps + " min.");
 		//}		
+		System.out.println("Nº parades: " + parades.size());
+		System.out.println("Parades: ");
+		for(Parada parada:parades) {
+			System.out.println(parada.getOrdre() + " - " + parada.getNomParada());
+		}		
 		//inicialitzarTimerSeg();
 	}
 	
