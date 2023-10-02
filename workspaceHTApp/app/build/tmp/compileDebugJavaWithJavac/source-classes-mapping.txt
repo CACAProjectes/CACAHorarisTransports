@@ -1,0 +1,54 @@
+es/xuan/horaristransportsapp/BuildConfig.java
+ es.xuan.horaristransportsapp.BuildConfig
+es/xuan/horaristransportsapp/model/HorarisTransports.java
+ es.xuan.horaristransportsapp.model.HorarisTransports
+es/xuan/horaristransportsapp/model/Linia.java
+ es.xuan.horaristransportsapp.model.Linia
+es/xuan/horaristransportsapp/model/Favorit.java
+ es.xuan.horaristransportsapp.model.Favorit
+es/xuan/horaristransportsapp/gestor/ParadesViewAdapter.java
+ es.xuan.horaristransportsapp.gestor.ParadesViewAdapter
+es/xuan/horaristransportsapp/utils/Serializar.java
+ es.xuan.horaristransportsapp.utils.Serializar
+es/xuan/horaristransportsapp/gestor/Temporitzador.java
+ es.xuan.horaristransportsapp.gestor.Temporitzador
+ es.xuan.horaristransportsapp.gestor.Temporitzador$1
+ es.xuan.horaristransportsapp.gestor.Temporitzador$2
+ es.xuan.horaristransportsapp.gestor.Temporitzador$3
+es/xuan/horaristransportsapp/model/Hores.java
+ es.xuan.horaristransportsapp.model.Hores
+es/xuan/horaristransportsapp/MainActivity.java
+ es.xuan.horaristransportsapp.MainActivity
+ es.xuan.horaristransportsapp.MainActivity$1
+ es.xuan.horaristransportsapp.MainActivity$10
+ es.xuan.horaristransportsapp.MainActivity$11
+ es.xuan.horaristransportsapp.MainActivity$12
+ es.xuan.horaristransportsapp.MainActivity$2
+ es.xuan.horaristransportsapp.MainActivity$3
+ es.xuan.horaristransportsapp.MainActivity$4
+ es.xuan.horaristransportsapp.MainActivity$5
+ es.xuan.horaristransportsapp.MainActivity$6
+ es.xuan.horaristransportsapp.MainActivity$7
+ es.xuan.horaristransportsapp.MainActivity$8
+ es.xuan.horaristransportsapp.MainActivity$9
+es/xuan/horaristransportsapp/gestor/LiniesViewAdapter.java
+ es.xuan.horaristransportsapp.gestor.LiniesViewAdapter
+es/xuan/horaristransportsapp/utils/Base64.java
+ es.xuan.horaristransportsapp.utils.Base64
+ es.xuan.horaristransportsapp.utils.Base64$OutputStream
+es/xuan/horaristransportsapp/gestor/FavoritsViewAdapter.java
+ es.xuan.horaristransportsapp.gestor.FavoritsViewAdapter
+es/xuan/horaristransportsapp/gestor/GestorHorarisTransports.java
+ es.xuan.horaristransportsapp.gestor.GestorHorarisTransports
+ es.xuan.horaristransportsapp.gestor.GestorHorarisTransports$1
+ es.xuan.horaristransportsapp.gestor.GestorHorarisTransports$2
+ es.xuan.horaristransportsapp.gestor.GestorHorarisTransports$3
+ es.xuan.horaristransportsapp.gestor.GestorHorarisTransports$4
+es/xuan/horaristransportsapp/model/TempsEspera.java
+ es.xuan.horaristransportsapp.model.TempsEspera
+es/xuan/horaristransportsapp/utils/Utils.java
+ es.xuan.horaristransportsapp.utils.Utils
+es/xuan/horaristransportsapp/model/Parada.java
+ es.xuan.horaristransportsapp.model.Parada
+es/xuan/horaristransportsapp/gestor/Repositori.java
+ es.xuan.horaristransportsapp.gestor.Repositori
