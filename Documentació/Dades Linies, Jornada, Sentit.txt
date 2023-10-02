@@ -231,3 +231,27 @@ Horaris L4 - Can Rosés - Vuelta
 Horaris L4 - Països Catalans - Vuelta
 	https://rubibus.com/consultes.asp?proces=HorarioLinea&idioma=ca&idLinia=4&idSentido=6&IdJornada=1&NomParada=131
 
+
+
+
+B7
+	https://www.moventis.es/es/node/86831
+
+	IDA - RUBI - SANT CUGAT - CERDANYOLA
+		https://www.moventis.es/api/json/GetParadas/184/5/20220305/1000;5
+			1000 es el número de minutos. 
+		
+	VUELTA - CERDANYOLA - SANT CUGAT - RUBÍ
+		https://www.moventis.es/api/json/GetParadas/184/6/20220305/1157;6
+			1157 es el número de minutos.
+		
+B8
+	IDA - SANT CUGAT - RUBÍ - HOSPITAL DE TERRASSA
+		https://www.moventis.es/api/json/GetParadas/32/11/20220305/1173;11;101		
+
+	VUELTA - HOSPITAL TERRASSA-RUBI-SANT CUGAT
+		https://www.moventis.es/api/json/GetParadas/32/602/20220305/1173;602
+
+
+
+
